@@ -1,0 +1,16 @@
+name: first workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  first-workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: First step
+        run: |
+          echo "learn git action"
+          echo "hello world"

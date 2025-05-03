@@ -1,0 +1,26 @@
+name: Script Workflow
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  script-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '22'
+
+      - name: node version check
+        run: node -v
+
+      - name: workflow script
+        run: |
+          echo " Hello, boss this is script workflow"
+
+      - name: run Nodejs Script
+        run: node githubaction.js
