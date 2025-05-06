@@ -19,3 +19,4 @@ const resArray = LinerSearch(array, findValue);
 console.log(resArray);
 
 // time complexity: 0(n)
+// space complexity 0(1)
