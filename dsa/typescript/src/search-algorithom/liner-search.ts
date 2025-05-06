@@ -17,3 +17,5 @@ function LinerSearch(array, findValue) {
 const resArray = LinerSearch(array, findValue);
 
 console.log(resArray);
+
+// time complexity: 0(n)
