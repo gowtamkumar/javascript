@@ -1,32 +1,28 @@
 // binary search should be sorted
 
 let newArray = [1, 3, 4, 6, 7, 12, 33, 44, 56, 76, 81, 91, 92, 95];
-let len = newArray.length;
+let left = 0;
+let right = newArray.length - 1;
+let findValues = null;
+let targetValue = 3;
 
-function binarySearch(arr: number[], len: number, find: number) {
-  let left, right;
-  let mid = 0;
-  left = 0;
-  right = len - 1; // last index
+while (left <= right) {
+  let mid = Math.floor((left + right) / 2);
 
-  while (left <= right) {
-    mid = Math.round((left + right) / 2);
-    if (arr[mid] == find) {
-      return mid;
-    }
-
-    if (arr[mid] < find) {
-      left = mid + 1;
-    } else {
-      right = mid - 1;
-    }
+  if (newArray[mid] === targetValue) {
+    findValues = newArray[mid];
+    break;
   }
 
-  if (arr[mid] != find) {
-    return `not found ${find}`;
+  if (newArray[mid] < targetValue) {
+    left = mid + 1;
+  } else if (newArray[mid] > targetValue) {
+    right = mid - 1;
   }
 }
 
-const res = binarySearch(newArray, len, 44);
-
-console.log("res", res);
+if (findValues !== null) {
+  console.log("dinf valu", findValues);
+} else {
+  console.log("not found this");
+}
