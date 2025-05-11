@@ -1,9 +1,9 @@
 // binary search should be sorted
 let newArray = [1, 3, 4, 6, 7, 12, 33, 44, 56, 76, 81, 91, 92, 95];
 
-let targetValue: number = 1;
+let targetValue = 95;
 
-function binarySearch(newArray: any[], findValue: number) {
+function binarySearch(newArray, findValue) {
   let right = newArray.length - 1;
   let left = 0;
 
@@ -15,6 +15,7 @@ function binarySearch(newArray: any[], findValue: number) {
 
     if (newArray[mid] < findValue) {
       left = mid + 1;
+      console.log("testing..");
     } else {
       right = mid - 1;
     }
