@@ -36,7 +36,5 @@
 
 // console.log(example);
 // console.log(example2);
-let text = "Hello world, welcome to the universe.";
-console.log("text.startsWith", text.substring(0, 1));
-
-
+const x = new Boolean();
+console.log(x.valueOf());
