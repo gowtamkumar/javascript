@@ -36,16 +36,7 @@
 
 // console.log(example);
 // console.log(example2);
+let text = "Hello world, welcome to the universe.";
+console.log("text.startsWith", text.substring(0, 1));
 
-var a = 200;
 
-{
- var a = 300;
-}
-let b = a;
-
-{
-  let b = -400;
-}
-
-console.log("dd");
