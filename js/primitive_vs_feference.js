@@ -52,10 +52,13 @@ function change(value) {
   value.name = "go"; // ata mutaion hoyche
 }
 
-change(e); // amara mone korte pari pass korlam value but na ata holo pass by referance 
+change(e); // amara mone korte pari pass korlam value but na ata holo pass by referance
 
 console.log(e);
 
-
 // note: primitive value kokhon mutate kora hoy na jodi o kori seat ignore kore
 // note: referance value nutation kora jai and assing o kora jai. function a jonno all time pass by referance for any data type
+
+const checkPrimitive = "2 + 2"
+
+console.log(eval(checkPrimitive));
