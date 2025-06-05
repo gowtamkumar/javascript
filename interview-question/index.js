@@ -39,10 +39,17 @@
 // const x = new Boolean();
 // console.log(x.valueOf());
 
-for (var i = 0; i < 4; i++) {
-  setTimeout(() => {
-    console.log(i); //output: 4,4,4,4 but should be output 1,2,3,4
-  }, 100);
-}
+// for (var i = 0; i < 4; i++) {
+//   setTimeout(() => {
+//     console.log(i); //output: 4,4,4,4 but should be output 1,2,3,4
+//   }, 100);
+// }
 
+const prototype1 = {};
+
+const object1 = Object.create(prototype1)
+
+
+
+console.log(Object.getPrototypeOf(object1) == prototype1);
 
