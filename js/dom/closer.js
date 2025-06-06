@@ -31,9 +31,15 @@ function addFun() {
   document.getElementById("fromValue").innerHTML = text;
 }
 
-function insertBodyData(){
-  const inserData = document.getElementById('inserBodyText').innerHTML = document.body.innerHTML
-console.log(inserData);
+function insertBodyData() {
+  const inserData = (document.getElementById("inserBodyText").innerHTML =
+    document.body.innerHTML);
+}
 
+function getLink() {
+  const getLInk = (document.getElementById("demos").innerHTML = document.title);
+}
 
+function setColor() {
+  document.getElementById("p1").style.color = "red";
 }
