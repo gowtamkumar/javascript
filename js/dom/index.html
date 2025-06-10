@@ -6,8 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <script src="./closer.js"></script>
+
 </head>
+<style>
+  .mystyle{
+    background-color: red;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    border: 2px solid black;
+  }
+</style>
 
 <body>
   <button onclick="newFun()">Remove it</button>
@@ -15,6 +24,10 @@
   <button onclick="insertBodyData()">get Body Data</button>
   <button onclick="getLink()">get Link</button>
   <button onclick="setColor()">set color</button>
+  <button onclick="removeColor()">Remove color</button>
+
+  <button id="myBtn">Check button</button>
+
   <div id="div1" class="div">
     <h1 id="demo">Hello World</h1>
     <p id="p1" class="g">Hello </h1>
@@ -42,4 +55,5 @@
   <p id="demos"></p>
 </body>
 
+  <script src="./closer.js"></script>
 </html>

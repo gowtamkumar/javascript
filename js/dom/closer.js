@@ -13,11 +13,11 @@ function add() {
 }
 
 const newAdd = add();
-console.dir(newAdd);
+// console.dir(newAdd);
 newAdd();
-console.dir(newAdd);
+// console.dir(newAdd);
 newAdd();
-console.dir(newAdd);
+// console.dir(newAdd);
 newAdd();
 
 function addFun() {
@@ -41,5 +41,13 @@ function getLink() {
 }
 
 function setColor() {
-  document.getElementById("p1").style.color = "red";
+  document.getElementById("p1").classList.add("mystyle");
 }
+
+function removeColor() {
+  document.getElementById("p1").classList.remove("mystyle");
+}
+
+document.getElementById("myBtn").addEventListener("click", function () {
+  console.log("Button clicked!");
+});
