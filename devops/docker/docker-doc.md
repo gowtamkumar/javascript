@@ -180,21 +180,39 @@ ip a
 ## docker database show for posgresql
 
     docker exec -it db psql -U postgres (db meaingin container)
-    
 
 ## deployment by docker
 
- run: docker compose -f compose.dev.yaml up --build
- down: docker compose -f compose.dev.yaml down --build
+run: docker compose -f compose.dev.yaml up --build
+down: docker compose -f compose.dev.yaml down --build
 
- ## Linux system administraction essentials
-    
-   this system This file stores essential information about system users: cat /etc/passwd
-   ## etc path ar moddha user, group, password all existing thake
+## Linux system administraction essentials
 
-   note: group crate then role permission
-    ## group crate
-    commond: sudo groupadd test_group
-    ## group see commend
-    commond: cat /etc/group
+this system This file stores essential information about system users: cat /etc/passwd
 
+## etc path ar moddha user, group, password all existing thake
+
+note: group crate then role permission ## group crate
+commond: sudo groupadd test_group ## group see commend
+commond: cat /etc/group
+
+    <---------------------------------database with docker----------------------------------->
+    csv file single table import:
+        1. copy then file in docker:
+            docker cp /home/gowtam/db_tables/products.csv db_container:/tmp/products.csv
+        2. then check:
+            docker exec -it postgres_db ls /tpm/products.csv
+
+        2. this is insert data:
+            docker exec -it container_id \ psql -U db_user -d database name \
+            -c "\copy brands(id, name, logo, description, is_active, store_id, created_at, updated_at) FROM '/tmp/brands.csv' WITH CSV HEADER"
+
+    Database backup:
+        docker exec -t <container_name_or_id> pg_dump -U <db_user> <db_name> > backup.sql
+
+    Database restore:
+        First copy filein docker:
+            docker cp /home/gowtam/backup.sql db_container:/tmp/backup.sql
+
+    Then exec this:
+            docker exec -i <container_name_or_id> psql -U <db_user>  -d <db_name> < /tmp/backup.sql
