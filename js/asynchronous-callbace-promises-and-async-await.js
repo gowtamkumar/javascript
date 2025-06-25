@@ -59,4 +59,17 @@ async function testFun() {
 
 testFun();
 
-console.log("hello");
+var promise11 = new Promise(function (resolve, reject) {
+  setTimeout(resolve, 100, "one");
+});
+
+var promise21 = new Promise(function (resolve, reject) {
+  setTimeout(resolve, 500, "two");
+});
+
+var promise22 = new Promise(function (resolve, reject) {
+  setTimeout(resolve, 50, "Three");
+});
+Promise.race([promise11, promise21, promise22]).then(function (value) {
+  console.log("value", value); // "two" // Both promises will resolve, but promise2 is faster
+});
