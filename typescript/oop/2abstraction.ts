@@ -3,7 +3,8 @@ class Charater {
   public firstName: string;
   public lastName: string;
   constructor(firstName: string, lastName: string) {
-    (this.firstName = firstName), (this.lastName = lastName);
+    this.firstName = firstName;
+    this.lastName = lastName;
   }
   // abstract getStrict(): number;
   fullName(): string {
