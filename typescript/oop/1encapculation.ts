@@ -20,3 +20,31 @@ class PersonEncap {
 const resultEncap = new PersonEncap("Gowtam", 50);
 
 console.log(resultEncap);
+
+// secend example
+
+class BankAccount {
+  private balance: number;
+  constructor(initBalance: number) {
+    this.balance = initBalance;
+  }
+
+  public getBlance() {
+    return this.balance;
+  }
+
+  public deposit(value: number) {
+    if (value >= 0) {
+      this.balance += value;
+    } else {
+      return "Invalid deposit amount.";
+    }
+  }
+}
+
+const balanceRes = new BankAccount(1000);
+balanceRes.deposit(3000);
+
+console.log("newDeposit", balanceRes.getBlance()); // we cna acess but
+
+// console.log(balanceRes.balance); but this can not access
