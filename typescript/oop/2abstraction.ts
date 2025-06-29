@@ -1,5 +1,7 @@
-// if you use abstract keyword before class and method you can not access and can not create instant
-class Charater {
+// if you use abstract keyword before class and method you can not access directly and can not create instant
+// if you use this abstract need to extended by onther class
+// we can use function and class before
+abstract class Charater {
   public firstName: string;
   public lastName: string;
   constructor(firstName: string, lastName: string) {

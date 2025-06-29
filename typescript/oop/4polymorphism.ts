@@ -1,5 +1,7 @@
 // we can see getFullname function present insite two class
 // and secend class override this override is polymorphism
+//  Goal: Flexible and extensible code.
+
 class Person {
   public firstName: string;
   public lastName: string;
