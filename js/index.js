@@ -70,13 +70,21 @@ let i = 0;
 
 // console.log(typeof typeof 1); // result string
 
-var mainString = "hello"
- var subString = "hell";
+var mainString = "hello";
+var subString = "hell";
 
-console.log("mainString.includes(subString);", mainString.indexOf(subString) !== -1);
+console.log(
+  "mainString.includes(subString);",
+  mainString.indexOf(subString) !== -1
+);
 
 // regex
-var regex = /hell/
+var regex = /hell/;
 
 console.log(regex.test(mainString));
 
+function capitalizeFirstLetter(value) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+console.log(capitalizeFirstLetter("gowtamkumar"));
