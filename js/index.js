@@ -70,6 +70,13 @@ let i = 0;
 
 // console.log(typeof typeof 1); // result string
 
-const numbers = [1,2,3,4,5,6]
-numbers[11] = 500
-console.log(numbers.length);
+var mainString = "hello"
+ var subString = "hell";
+
+console.log("mainString.includes(subString);", mainString.indexOf(subString) !== -1);
+
+// regex
+var regex = /hell/
+
+console.log(regex.test(mainString));
+
