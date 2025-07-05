@@ -12,7 +12,6 @@ var object = {
 
 console.log("Object.entries(obj)", obj.constructor === Object);
 
-
 for (var key in object) {
   console.log("dded", key);
 
@@ -20,3 +19,16 @@ for (var key in object) {
     console.log(key + " -> " + object[key]); // k1 -> value1 ...
   }
 }
+
+function sum() {
+  var total = 0;
+  for (var i = 0, len = arguments.length; i < len; ++i) {
+    total += arguments[i];
+  }
+  return total;
+}
+
+const ressum = sum(1, 2, 3); // returns 6
+
+console.log("ressum", ressum);
+
