@@ -30,7 +30,6 @@ Hello boss 👋 — this is your 90-day plan to build strong confidence in your 
 ---
 
 ## ✅ Phase 1: Core Strength (Day 1–30)
-
 | Area | Priority | Focus |
 |------|----------|-------|
 | JavaScript (ES6+), TypeScript | ⭐⭐⭐⭐ | Closures, async/await, `this`, modules |
@@ -46,7 +45,7 @@ Hello boss 👋 — this is your 90-day plan to build strong confidence in your 
 | Redis | ⭐⭐⭐ | Caching, sessions, rate limiting |
 
 🔨 **Mini Project:**  
-Build a Full-Stack Blog App:  
+Build a Full-Stack LMS App:  
 - Stack: Next.js + NestJS + PostgreSQL + Redis + Docker  
 - Features: Auth, posts, comments  
 - Deployment: NGINX + Docker + SSL  
@@ -73,7 +72,7 @@ Build a Full-Stack Blog App:
 Build WhatsApp-Style Chat App:  
 - Auth (JWT + Refresh Token)  
 - Realtime chat via WebSocket  
-- Group chat & file upload (S3)  
+- Group chat & file upload
 - Admin dashboard  
 - PostgreSQL + Redis  
 - Full Docker + NGINX + SSL  
