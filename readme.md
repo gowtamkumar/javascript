@@ -31,8 +31,7 @@ Hello boss 👋 — this is your 90-day plan to build strong confidence in your 
 
 ## ✅ Phase 1: Core Strength (Day 1–30)
 
-| Area                          | Priority                    | Focus                                                                         |
-| ----------------------------- | --------------------------- | ----------------------------------------------------------------------------- | ----------------------- |
+| Area                          | Priority                    | Focus                                                                        
 | JavaScript (ES6+), TypeScript | ⭐⭐⭐⭐                    | Closures, async/await, `this`, modules                                        |
 | ✅                            | Topic                       | Details                                                                       |
 | -                             | ---------------------       | ----------------------------------------------------------------------        |
