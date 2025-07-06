@@ -88,3 +88,13 @@ function capitalizeFirstLetter(value) {
 }
 
 console.log(capitalizeFirstLetter("gowtamkumar"));
+
+const str = "this is a \n very long string that is used to test the \n multiline string functionality in JavaScript. \n It should be able to handle new lines and other special characters like \n tabs and spaces.";
+
+console.log("str", str);
+
+function sum(num1, num2, num3, num4) {
+  return num1 + num2 + num3 + num4;
+}
+console.log(sum.length);
+ // 4 is the number of parameters expected.

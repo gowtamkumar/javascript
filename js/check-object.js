@@ -32,3 +32,6 @@ const ressum = sum(1, 2, 3); // returns 6
 
 console.log("ressum", ressum);
 
+
+
+
