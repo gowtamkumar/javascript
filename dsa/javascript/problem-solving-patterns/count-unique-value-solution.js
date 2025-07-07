@@ -17,3 +17,5 @@ function getUniqueValues(arr){
 
 const resUniqe = getUniqueValues(unicValus)
 console.log("resUniqe", resUniqe);
+
+
