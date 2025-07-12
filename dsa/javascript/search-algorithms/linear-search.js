@@ -7,4 +7,4 @@ function linearSearch(arr, value) {
     return -1;
 }
 
-linearSearch([11,22,3,455,66,5], 11)
+linearSearch([11,22,3,455,66,5], 11)  
