@@ -94,17 +94,29 @@ const str =
 
 console.log("str", str);
 
-function sum(num1, num2, num3, num4) {
-  return num1 + num2 + num3 + num4;
-}
+// function sum(num1, num2, num3, num4) {
+//   return num1 + num2 + num3 + num4;
+// }
 // console.log(sum.length);
 // 4 is the number of parameters expected.
 
-console.log(Math.floor(Math.random() * 100) + 1);
+// console.log(Math.floor(Math.random() * 100) + 1);
 
-const msg = "Hello Gowtam kumar";
-const msgRes = msg.toLowerCase().search(/gowtam/);
-console.log("msgRes", msgRes);
+// const msg = "Hello Gowtam kumar";
+// const msgRes = msg.toLowerCase().search(/gowtam/);
+// console.log("msgRes", msgRes);
 
-const resReplace = msg.split(" ");
-console.log("resReplace", resReplace);
+// const resReplace = msg.split(" ");
+// console.log("resReplace", resReplace);
+
+const marks = [50, 44, 55, 22, 11];
+function findMin(arg) {
+  return Math.min(...arg);
+}
+
+function findMax(arg) {
+  return Math.max(...arg);
+}
+
+console.log(findMin(marks));
+console.log(findMax(marks));
