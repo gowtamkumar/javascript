@@ -109,14 +109,14 @@ console.log("str", str);
 // const resReplace = msg.split(" ");
 // console.log("resReplace", resReplace);
 
-const marks = [50, 44, 55, 22, 11];
-function findMin(arg) {
-  return Math.min(...arg);
-}
+// const marks = [50, 44, 55, 22, 11];
+// function findMin(arg) {
+//   return Math.min(...arg);
+// }
 
-function findMax(arg) {
-  return Math.max(...arg);
-}
+// function findMax(arg) {
+//   return Math.max(...arg);
+// }
 
-console.log(findMin(marks));
-console.log(findMax(marks));
+// console.log(findMin(marks));
+// console.log(findMax(marks));
