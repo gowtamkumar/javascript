@@ -120,3 +120,13 @@ console.log("str", str);
 
 // console.log(findMin(marks));
 // console.log(findMax(marks));
+
+function resetData(...number) {
+  console.log("number", number);
+  console.log(structuredClone(number));
+  
+}
+
+resetData(3, 4, 5, 67, 8, 1);
+
+
