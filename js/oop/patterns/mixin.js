@@ -19,5 +19,5 @@ class User {
 Object.assign(User.prototype, sayHIMixin, sayByeMixin);
 
 const user = new User("Gowtam kumar");
-user.sayHi()
-user.sayBye()
+user.sayHi();
+user.sayBye();
