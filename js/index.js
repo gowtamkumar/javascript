@@ -124,9 +124,17 @@ console.log("str", str);
 function resetData(...number) {
   console.log("number", number);
   console.log(structuredClone(number));
-  
 }
 
 resetData(3, 4, 5, 67, 8, 1);
 
+var length = 9;
+function count() {
+  console.log(arguments);
+  
+  console.log("as", this.length);
+}
 
+const data  =  [count, 'A', 0]
+
+data[0]("hi");
