@@ -1,23 +1,24 @@
 {
-  "name": "node.js",
+  "name": "nodejs",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [
-    "node"
-  ],
+  "description": "Hello boss 👋 — this is your 90-day plan to build strong confidence in your stack.",
+  "homepage": "https://github.com/gowtamkumar/Javascript#readme",
+  "bugs": {
+    "url": "https://github.com/gowtamkumar/Javascript/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gowtamkumar/Javascript.git"
+  },
   "license": "ISC",
-  "author": "Gowtam kumar",
+  "author": "",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "eslint": "^8.2.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-prettier": "^5.5.3",
-    "prettier": "^3.6.2"
+    "nodemon": "^3.1.10"
   }
 }

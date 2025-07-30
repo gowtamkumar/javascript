@@ -1,1 +1,53 @@
-console.log(__filename);
+const path = require('path')
+const os = require('os')
+const fs =  require('fs')
+
+const event = require('events')
+
+const http = require('http')
+
+
+
+// const mypath = '/home/gowtam/Desktop/gowtam/Javascript/nodejs/index.js'
+// console.log("basename", path.parse(mypath) );
+
+// console.log("os", os.cpus());
+
+// console.log("fs", fs.writeFileSync('myfile.txt', "Hello boss learn node.js",));
+// console.log("fs", fs.appendFileSync('myfile.txt', "Hello node.js. how old are you boss"));
+
+// const readFile = fs.readFile('myfile.txt', (error, data)=> { // this is async fun
+//   console.log("ee", data);
+//   console.log("ee", data.toString());
+// })
+
+// console.log("test asyn");
+
+// console.log("fs file with buffer", readFile);
+// console.log("fs file read", readFile.toString());
+
+// event module
+// const newimmter = new event.EventEmitter()
+//  newimmter.on("beelring", (period)=> {
+//   console.log("please hit tht log", period);
+  
+//  })
+//  newimmter.emit('beelring', 'i am learning node.js core module')
+
+// http
+const server = http.createServer((req, res)=> {
+  if(req.url === "/"){
+    res.write("hello node.js Home api");
+    res.end();
+  } else if(req.url === '/about'){
+     res.write("hello node.js about api");
+    res.end();
+  } else{
+    res.end("This Route is not found");
+  }
+})
+
+ server.listen(3001, ()=> {
+  console.log("node js server is running..");
+ })
+
