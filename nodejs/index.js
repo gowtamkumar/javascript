@@ -1,12 +1,10 @@
-const path = require('path')
-const os = require('os')
-const fs =  require('fs')
+const path = require("path");
+const os = require("os");
+const fs = require("fs");
 
-const event = require('events')
+const event = require("events");
 
-const http = require('http')
-
-
+const http = require("http");
 
 // const mypath = '/home/gowtam/Desktop/gowtam/Javascript/nodejs/index.js'
 // console.log("basename", path.parse(mypath) );
@@ -30,24 +28,42 @@ const http = require('http')
 // const newimmter = new event.EventEmitter()
 //  newimmter.on("beelring", (period)=> {
 //   console.log("please hit tht log", period);
-  
+
 //  })
 //  newimmter.emit('beelring', 'i am learning node.js core module')
 
+// stream and buffer
+// get data by stream
+
+console.log(`${__dirname}/doc.txt`);
+
+const readDatabyStream = fs.createReadStream(`${__dirname}/myfile.txt`); // "utf8"
+const writeStream = fs.createWriteStream(`${__dirname}/output.txt`); // here chunk write
+
+// readDatabyStream.on("data", (chunk) => {
+//   console.log("testing chunk", chunk);
+//   writeStream.write(chunk);
+// });
+
+// this olternative for Stream
+readDatabyStream.pipe(writeStream);
+
 // http
-const server = http.createServer((req, res)=> {
-  if(req.url === "/"){
+const server = http.createServer((req, res) => {
+  if (req.url === "/") {
     res.write("hello node.js Home api");
     res.end();
-  } else if(req.url === '/about'){
-     res.write("hello node.js about api");
+  } else if (req.url === "/about") {
+    res.write("hello node.js about api");
     res.end();
-  } else{
+  } else if (req.url === "/big-data") {
+    const readDatabyStream = fs.createReadStream(`${__dirname}/myfile.txt`); // "utf8"
+    readDatabyStream.pipe(res);
+  } else {
     res.end("This Route is not found");
   }
-})
+});
 
- server.listen(3001, ()=> {
+server.listen(3001, () => {
   console.log("node js server is running..");
- })
-
+});
