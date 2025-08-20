@@ -48,7 +48,33 @@ class SinglyLinkedList {
       current = current.next;
     }
   }
+
+  shift() {
+    if (!this.head) return undefined;
+    var currentHead = this.head;
+    this.head = currentHead.next;
+    this.length--;
+    if (this.length === 0) {
+      this.tail = null;
+    }
+    return currentHead;
+  }
+  unshift(value) {
+    var newNode = new Node(value);
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = this.head;
+    } else {
+      newNode.next = this.head;
+      this.head = newNode;
+    }
+    this.length++;
+    return this;
+  }
 }
 
 var list = new SinglyLinkedList();
 list.push("hello");
+list.unshift("first data");
+
+console.log("list", list.traverse());
