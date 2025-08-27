@@ -13,7 +13,7 @@ class SinglyLinkedList {
   }
   push(value) {
     var newNode = new Node(value);
-    console.log("newNode", newNode);
+    // console.log("newNode", newNode);
 
     if (!this.head) {
       this.head = newNode;
@@ -44,7 +44,7 @@ class SinglyLinkedList {
   traverse() {
     var current = this.head;
     while (current) {
-      console.log(current.value);
+      // console.log(current.value);
       current = current.next;
     }
   }
@@ -81,6 +81,18 @@ class SinglyLinkedList {
     }
     return current;
   }
+  insert(index, value) {
+    if (index < 0 || index > this.length) return false;
+    if (index === this.length) return this.push(value);
+    if (index === 0) return this.unshift(value);
+    var newNode = new Node(value);
+    var prev = this.get(index - 1);
+    var temp = prev.next;
+    prev.next = newNode;
+    newNode.next = temp;
+    this.length++;
+    return true;
+  }
 }
 
 var list = new SinglyLinkedList();
@@ -88,5 +100,6 @@ list.push("hello");
 list.push("howare you boss?");
 // list.unshift("first data");
 
-console.log("list", list.traverse());
-console.log("get", list.get(1));
+// console.log("list", list.traverse());
+console.log("get", list.insert(1, "H"));
+console.log("list", list);
