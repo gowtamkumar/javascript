@@ -1,0 +1,11 @@
+services:
+  redis:
+    image: redis:7.4-alpine # Using a lightweight Alpine-based Redis image
+    container_name: my-redis-instance
+    ports:
+      - "6379:6379" # Maps host port 6379 to container port 6379
+    volumes:
+      - redis_data:/data # Mounts a named volume for data persistence
+    command: redis-server --appendonly yes # Enables AOF persistence
+volumes:
+  redis_data: # Defines the named volume
