@@ -93,6 +93,16 @@ class SinglyLinkedList {
     this.length++;
     return true;
   }
+  remove(index) {
+    if (index < 0 || index >= this.length) return false;
+    if (index === 0) return this.shift();
+    if (index === this.length - 1) return this.pop();
+    var previousNode = this.get(index - 1);
+    var removed = previousNode.next;
+    previousNode.next = removed.next;
+    this.length--;
+    return removed;
+  }
 }
 
 var list = new SinglyLinkedList();
@@ -102,4 +112,9 @@ list.push("howare you boss?");
 
 // console.log("list", list.traverse());
 console.log("get", list.insert(1, "H"));
+console.log("list", list);
+
+list.remove(2);
+list.remove(0);
+list.remove(1);
 console.log("list", list);
