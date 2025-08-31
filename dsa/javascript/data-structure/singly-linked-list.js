@@ -41,13 +41,6 @@ class SinglyLinkedList {
     }
     return current;
   }
-  traverse() {
-    var current = this.head;
-    while (current) {
-      // console.log(current.value);
-      current = current.next;
-    }
-  }
 
   shift() {
     if (!this.head) return undefined;
@@ -103,6 +96,27 @@ class SinglyLinkedList {
     this.length--;
     return removed;
   }
+  reverse() {
+    var node = this.head;
+    this.head = this.tail;
+    this.tail = node;
+    var next;
+    var prev = null;
+    for (let i = 0; i < this.length; i++) {
+      next = node.next;
+      node.next = prev;
+      prev = node;
+      node = next;
+    }
+    return this;
+  }
+  print() {
+    var current = this.head;
+    while (current) {
+      // console.log(current.value);
+      current = current.next;
+    }
+  }
 }
 
 var list = new SinglyLinkedList();
@@ -114,7 +128,7 @@ list.push("howare you boss?");
 console.log("get", list.insert(1, "H"));
 console.log("list", list);
 
-list.remove(2);
-list.remove(0);
-list.remove(1);
-console.log("list", list);
+// list.remove(2);
+// list.remove(0);
+// list.remove(1);
+console.log("list", list.reverse());
