@@ -1,0 +1,11 @@
+{
+  "name": "redis-db",
+  "version": "1",
+  "description": "learn-redis",
+  "main": "index.js",
+  "author": "gowtamkumar",
+  "license": "MIT",
+  "dependencies": {
+    "ioredis": "^5.7.0"
+  }
+}
