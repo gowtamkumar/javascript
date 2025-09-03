@@ -5,7 +5,7 @@
 1. monolathic architecture
 2. 2 tier
 3. n tier (we are use this architecture)
-4. modulear monolithic (also we are use this architecture)
+4. moduler monolithic (also we are use this architecture)
 5. microservice
 6. event Driven
 7. cloud native
@@ -435,7 +435,8 @@ how to shift monolithic architechture to microsservice?
 
 # twitter social media platform
 
-  ## Requirements:
+## Requirements:
+
      functional Requirement:
       1. should be able to post new tweets(can be test, image, video)
       2. should be able to follow other user
@@ -468,4 +469,3 @@ how to shift monolithic architechture to microsservice?
              6. notification service
              7. analytices service
        3. detailed design
-
