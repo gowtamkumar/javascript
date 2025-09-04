@@ -40,12 +40,28 @@ class DoublyLinkedList {
     this.length--;
     return this;
   }
+  shift() {
+    if (this.length === 0) return undefined;
+    const oldHead = this.head;
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    } else {
+      this.head = oldHead.next;
+      this.head.prev = null;
+      oldHead.next = null;
+    }
+    this.length--;
+    return oldHead;
+  }
 }
 
 const result = new DoublyLinkedList();
 
 result.push(44);
 result.push(50);
-result.pop();
-result.pop();
+// result.pop();
+// result.pop();
+result.shift();
+result.shift();
 console.log("lsit all", result);
