@@ -1,8 +1,6 @@
 # 🚀 Full-Stack Developer Skill Roadmap (Confidence + Mastery)
 
-Hello boss 👋 — this is your 90-day plan to build strong confidence in your stack.
-
----
+## Hello boss 👋 — this is your 90-day plan to build strong confidence in your stack.
 
 ## 🧠 Your Skills (Needs Strengthening)
 
@@ -31,53 +29,53 @@ Hello boss 👋 — this is your 90-day plan to build strong confidence in your 
 
 ## ✅ Phase 1: Core Strength (Day 1–30)
 
-| Area                          | Priority                    | Focus                                                                        
-| JavaScript (ES6+), TypeScript | ⭐⭐⭐⭐                    | Closures, async/await, `this`, modules                                        |
-| ✅                            | Topic                       | Details                                                                       |
-| -                             | ---------------------       | ----------------------------------------------------------------------        |
-| ☐                             | `let`, `const`, `var`       | Scope, hoisting, block vs function scope                                      |
-| ☐                             | Data types                  | `string`, `number`, `boolean`, `null`, `undefined`, `object`, `symbol`        |
-| ☐                             | Type coercion               | Implicit vs explicit, `==` vs `===`, truthy/falsy                             |
-| ☐                             | Functions                   | Declarations, expressions, arrow functions, IIFE                              |
-| ☐                             | Closures                    | Lexical scope, function returning function                                    |
-| ☐                             | `this` keyword              | Global, object, arrow vs regular function, bind/apply/call                    |
-| ☐                             | Prototypes                  | Prototype chain, inheritance, constructor function                            |
-| ☐                             | Classes                     | `class`, `extends`, constructor, `super()`, static methods                    |
-| ☐                             | Destructuring               | Arrays and objects, nested values                                             |
-| ☐                             | Spread & Rest               | Cloning, merging, rest parameters                                             |
-| ☐                             | Default Parameters          | Function parameter defaults                                                   |
-| ☐                             | Template Literals           | `${}` interpolation, multiline strings                                        |
-| ☐                             | Array Methods               | `map`, `filter`, `reduce`, `find`, `some`, `every`, `includes`                |
-| ☐                             | Object Methods              | `Object.keys`, `Object.values`, `Object.entries`, merging                     |
-| ☐                             | Optional chaining           | `?.`, `??` for safe access                                                    |
-| ☐                             | Modules                     | `export`, `import`, named/default, file structure                             |
-| ☐                             | Promises                    | Creating, consuming, chaining with `.then`, `.catch`                          |
-| ☐                             | Async/Await                 | `try/catch`, working with API calls                                           |
-| ☐                             | Event Loop                  | Call stack, microtasks, `Promise`, `setTimeout`, task queue                   |
-| ☐                             | Error Handling              | `try`, `catch`, custom error, finally                                         |
-| ☐                             | DOM Basics                  | `querySelector`, `addEventListener`, manipulation                             |
-| ☐                             | BOM                         | `window`, `location`, `history`, `localStorage`, `navigator`                  |
-| ✅                            | Typescript Topic            | Details                                                                       |
-| ☐                             | Type Basics                 | `string`, `number`, `boolean`, `null`, `undefined`, `any`, `unknown`, `never` |                         |
-| ☐                             | Type Inference              | Let TS guess type or define explicitly                                        |                         |
-| ☐                             | Union & Intersection        | \`string                                                                      | number`, `A & B\` types |
-| ☐                             | Literal Types               | \`type Theme = "dark"                                                         | "light"\`               |
-| ☐                             | Type Alias                  | `type User = { id: number; name: string }`                                    |                         |
-| ☐                             | Interfaces                  | `interface`, extending, merging, vs type alias                                |                         |
-| ☐                             | Enums                       | `enum Role { USER, ADMIN }`, `const enum`                                     |                         |
-| ☐                             | Functions                   | Param types, return types, optional/default params                            |                         |
-| ☐                             | OOP with Classes            | `private`, `public`, `protected`, `readonly`, `implements`                    |                         |
-| ☐                             | Generics                    | `<T>`, reusable function/component, constraints                               |                         |
-| ☐                             | Utility Types               | `Partial`, `Required`, `Readonly`, `Record`, `Pick`, `Omit`                   |                         |
-| ☐                             | Type Narrowing              | `typeof`, `in`, `instanceof`, user-defined guards                             |                         |
-| ☐                             | Type Assertions             | `as`, angle brackets                                                          |                         |
-| ☐                             | `never` and `unknown`       | Special use cases, exhaustive checks                                          |                         |
-| ☐                             | Modules                     | Import/export types and interfaces                                            |                         |
-| ☐                             | Namespaces                  | Internal modules (less used today)                                            |                         |
-| ☐                             | Declaration Files           | `.d.ts`, third-party module types                                             |                         |
-| ☐                             | `tsconfig.json`             | Strict mode, compiler settings                                                |                         |
-| ☐                             | ESLint + TypeScript         | Type safety with code quality                                                 |                         |
-| ☐                             | Working with 3rd-party libs | Using DefinitelyTyped / `@types`                                              |                         |
+| Area | Priority | Focus  
+| JavaScript (ES6+), TypeScript | ⭐⭐⭐⭐ | Closures, async/await, `this`, modules |
+| ✅ | Topic | Details |
+| - | --------------------- | ---------------------------------------------------------------------- |
+| ☐ | `let`, `const`, `var` | Scope, hoisting, block vs function scope |
+| ☐ | Data types | `string`, `number`, `boolean`, `null`, `undefined`, `object`, `symbol` |
+| ☐ | Type coercion | Implicit vs explicit, `==` vs `===`, truthy/falsy |
+| ☐ | Functions | Declarations, expressions, arrow functions, IIFE |
+| ☐ | Closures | Lexical scope, function returning function |
+| ☐ | `this` keyword | Global, object, arrow vs regular function, bind/apply/call |
+| ☐ | Prototypes | Prototype chain, inheritance, constructor function |
+| ☐ | Classes | `class`, `extends`, constructor, `super()`, static methods |
+| ☐ | Destructuring | Arrays and objects, nested values |
+| ☐ | Spread & Rest | Cloning, merging, rest parameters |
+| ☐ | Default Parameters | Function parameter defaults |
+| ☐ | Template Literals | `${}` interpolation, multiline strings |
+| ☐ | Array Methods | `map`, `filter`, `reduce`, `find`, `some`, `every`, `includes` |
+| ☐ | Object Methods | `Object.keys`, `Object.values`, `Object.entries`, merging |
+| ☐ | Optional chaining | `?.`, `??` for safe access |
+| ☐ | Modules | `export`, `import`, named/default, file structure |
+| ☐ | Promises | Creating, consuming, chaining with `.then`, `.catch` |
+| ☐ | Async/Await | `try/catch`, working with API calls |
+| ☐ | Event Loop | Call stack, microtasks, `Promise`, `setTimeout`, task queue |
+| ☐ | Error Handling | `try`, `catch`, custom error, finally |
+| ☐ | DOM Basics | `querySelector`, `addEventListener`, manipulation |
+| ☐ | BOM | `window`, `location`, `history`, `localStorage`, `navigator` |
+| ✅ | Typescript Topic | Details |
+| ☐ | Type Basics | `string`, `number`, `boolean`, `null`, `undefined`, `any`, `unknown`, `never` | |
+| ☐ | Type Inference | Let TS guess type or define explicitly | |
+| ☐ | Union & Intersection | \`string | number`, `A & B\` types |
+| ☐ | Literal Types | \`type Theme = "dark" | "light"\` |
+| ☐ | Type Alias | `type User = { id: number; name: string }` | |
+| ☐ | Interfaces | `interface`, extending, merging, vs type alias | |
+| ☐ | Enums | `enum Role { USER, ADMIN }`, `const enum` | |
+| ☐ | Functions | Param types, return types, optional/default params | |
+| ☐ | OOP with Classes | `private`, `public`, `protected`, `readonly`, `implements` | |
+| ☐ | Generics | `<T>`, reusable function/component, constraints | |
+| ☐ | Utility Types | `Partial`, `Required`, `Readonly`, `Record`, `Pick`, `Omit` | |
+| ☐ | Type Narrowing | `typeof`, `in`, `instanceof`, user-defined guards | |
+| ☐ | Type Assertions | `as`, angle brackets | |
+| ☐ | `never` and `unknown` | Special use cases, exhaustive checks | |
+| ☐ | Modules | Import/export types and interfaces | |
+| ☐ | Namespaces | Internal modules (less used today) | |
+| ☐ | Declaration Files | `.d.ts`, third-party module types | |
+| ☐ | `tsconfig.json` | Strict mode, compiler settings | |
+| ☐ | ESLint + TypeScript | Type safety with code quality | |
+| ☐ | Working with 3rd-party libs | Using DefinitelyTyped / `@types` | |
 
 | OOP in JS/TS | ⭐⭐⭐ | Classes, interfaces, inheritance, abstraction |
 | ✅ | Topic | Description |
