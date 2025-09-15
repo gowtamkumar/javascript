@@ -67,15 +67,46 @@ class DoublyLinkedList {
     this.length++;
     return this;
   }
+
+  get(index) {
+    if (index < 0 || index >= this.length) return null;
+    if (index <= this.length / 2) {
+      let count = 0;
+      let current = this.head;
+      while (count != index) {
+        current = current.next;
+        count++;
+      }
+      return current;
+    } else {
+      let count = this.length - 1;
+      let current = this.tail;
+      while (count !== index) {
+        current = current.prev;
+        count--;
+      }
+      return current;
+    }
+  }
+
+  set(index, value) {
+    const foundNode = this.get(index);
+    if (foundNode != null) {
+      foundNode.val = value;
+      return true;
+    }
+    return false;
+  }
 }
 
 const result = new DoublyLinkedList();
 
 result.push(44);
 result.push(50);
+
 // result.pop();
 // result.pop();
 // result.shift();
 // result.shift();
-result.unshift(10);
-console.log("lsit all", result);
+result.set(0, 200);
+console.log("List of lnk", result);
