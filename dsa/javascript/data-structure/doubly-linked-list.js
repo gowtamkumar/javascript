@@ -97,6 +97,37 @@ class DoublyLinkedList {
     }
     return false;
   }
+
+  insert(value, index) {
+    if (this.length < 0 || index > this.length) return false;
+    if (index === 0) return this.unshift(value);
+    if (index === this.length) return this.push(value);
+    const newNode = new Node(value);
+    const beforNode = this.get(index - 1);
+    const afterNode = beforNode.next;
+
+    beforNode.next = newNode;
+    newNode.prev = beforNode;
+    newNode.next = afterNode;
+    afterNode.prev = newNode;
+    this.length++;
+    return true;
+  }
+
+  remove(index) {
+    if (this.length < 0) return false;
+    if (this.length - 1 === index) return this.pop();
+    if (this.length === 1) return this.shift();
+    var beforNode = this.get(index);
+    console.log("beforNode", beforNode);
+
+    beforNode.prev.next = beforNode.next;
+    beforNode.next.prev = beforNode.prev;
+    beforNode.next = null;
+    beforNode.prev = null;
+    this.length--;
+    return this;
+  }
 }
 
 const result = new DoublyLinkedList();
@@ -108,5 +139,11 @@ result.push(50);
 // result.pop();
 // result.shift();
 // result.shift();
-result.set(0, 200);
+// result.set(0, 200);
+// result.insert(6000, 0);
+// result.insert(30, 2);
+// result.insert(99, 3);
+
+// result.remove(5, 0);
+result.remove(0);
 console.log("List of lnk", result);
