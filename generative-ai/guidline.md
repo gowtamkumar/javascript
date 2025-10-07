@@ -16,9 +16,9 @@ I’ll guide you from **core foundations → AI basics → GenAI projects → ad
 8. AI AGENT
 9. PROJECT
 10. MULTIMODEL AI
-11. AI SECUERITY(ensuring safe, ethical, responsible ai demvelopment)
+11. AI SECURITY(ensuring safe, ethical, responsible ai demvelopment)
 
-## final
+## Final
 
 1. Coding basic
 2. Core ai concepts
