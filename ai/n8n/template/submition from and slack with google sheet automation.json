@@ -1,0 +1,652 @@
+{
+  "name": "submition from and slack with google sheet automation",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "User feedback form",
+        "formDescription": "This is a user feedback",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Full Name",
+              "placeholder": "Enter your full name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email Address",
+              "fieldType": "email",
+              "placeholder": "Enter your E-mail",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone",
+              "fieldType": "number",
+              "placeholder": "Enter your phone"
+            },
+            {
+              "fieldLabel": "feadback",
+              "placeholder": "Enter your Feedback "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -864,
+        -224
+      ],
+      "id": "104b72ca-4402-4d14-a80f-ce1f5eaecf67",
+      "name": "On form submission",
+      "webhookId": "9bee2a24-d9fc-4256-9131-0a6ded849d67"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=your role is determine if the feedback filled by the customer is a complaint, a compliment or af featur adtiion request\nThe Feedback is   {{ $json.feadback }}\nYour response should be only me from the below\n1) Complain\n2) Compliment\n3) Feature Addition Request",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -640,
+        -128
+      ],
+      "id": "b721851a-99e7-457a-9539-80d4a7071b1b",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        80
+      ],
+      "id": "76cbf338-edf0-4dd8-b2d2-1714f9088599",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "cjZ1yEdAMDrw1u98",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -304,
+        -304
+      ],
+      "id": "f4b5e7b1-a643-402d-a636-f33dc43dfd74",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "Complain",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "49225cab-8a89-49cb-a3c0-68d683cb6909"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "48cda69a-148c-451d-b8d3-3e935e2c0c77",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "Compliment",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a1f9b812-cdc9-4710-8fb5-84c9340c969e",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "Feature Addition Request",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -96,
+        -320
+      ],
+      "id": "f6dca080-4215-4404-b94d-741a9e97477f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1800615606,
+          "mode": "list",
+          "cachedResultName": "userfeedback",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg/edit#gid=1800615606"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Full Name": "={{ $('Merge').item.json['Full Name'] }}",
+            "Email Address": "={{ $('Merge').item.json['Email Address'] }}",
+            "Phone": "={{ $('Merge').item.json.Phone }}",
+            "feadback": "={{ $('Merge').item.json.feadback }}",
+            "output": "={{ $('Merge').item.json.output }}",
+            "submittedAt": "={{ $('Merge').item.json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Address",
+              "displayName": "Email Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "feadback",
+              "displayName": "feadback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output",
+              "displayName": "output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "submittedAt",
+              "displayName": "submittedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        -416
+      ],
+      "id": "744eeefd-49f1-4515-8800-8a70d89d9919",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qZ95rW6wPwoSs0km",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1800615606,
+          "mode": "list",
+          "cachedResultName": "userfeedback",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg/edit#gid=1800615606"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Full Name": "={{ $('Merge').item.json['Full Name'] }}",
+            "Email Address": "={{ $('Merge').item.json['Email Address'] }}",
+            "Phone": "={{ $('Merge').item.json.Phone }}",
+            "feadback": "={{ $('Merge').item.json.feadback }}",
+            "output": "={{ $('Merge').item.json.output }}",
+            "submittedAt": "={{ $('Merge').item.json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Address",
+              "displayName": "Email Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "feadback",
+              "displayName": "feadback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output",
+              "displayName": "output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "submittedAt",
+              "displayName": "submittedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        368,
+        -272
+      ],
+      "id": "a1b32f98-10e4-4492-895e-8edfdadb6f63",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qZ95rW6wPwoSs0km",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1800615606,
+          "mode": "list",
+          "cachedResultName": "userfeedback",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg/edit#gid=1800615606"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Full Name": "={{ $('Merge').item.json['Full Name'] }}",
+            "Email Address": "={{ $('Merge').item.json['Email Address'] }}",
+            "Phone": "={{ $('Merge').item.json.Phone }}",
+            "feadback": "={{ $('Merge').item.json.feadback }}",
+            "output": "={{ $('Merge').item.json.output }}",
+            "submittedAt": "={{ $('Merge').item.json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Address",
+              "displayName": "Email Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "feadback",
+              "displayName": "feadback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output",
+              "displayName": "output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "submittedAt",
+              "displayName": "submittedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        -112
+      ],
+      "id": "eb49162c-fb8e-44cb-bdc3-1def8a35d935",
+      "name": "Append row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qZ95rW6wPwoSs0km",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09Q84Y94P4",
+          "mode": "list",
+          "cachedResultName": "n8n_learn"
+        },
+        "text": "={{ $json.feadback }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        512,
+        -416
+      ],
+      "id": "7642a30a-5cfc-4644-9adf-83da0aa0c7c4",
+      "name": "Send a message",
+      "webhookId": "6f1eec22-df9f-4741-bb03-2e8e1ac6adb5",
+      "credentials": {
+        "slackApi": {
+          "id": "h0aKNp32NeNVgPcN",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Merge').item.json['Email Address'] }}",
+        "subject": "=",
+        "message": "=Hey {{ $('Merge').item.json['Full Name'] }}\nwe have alredy taken you complain thank you so muych",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        -416
+      ],
+      "id": "ecdbaaad-481b-4f2b-926f-9f8b4a489ea4",
+      "name": "Send a message1",
+      "webhookId": "60d336b4-5ed1-4528-93e3-527b374e7a47",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "twecXPXUUcDxif0N",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "96c1dc9b-ba07-41e4-b041-a9d9845ac040",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9804e6d7856e51862ab71241c526e1410c1caeb5b35968fb1c4553bfeafae876"
+  },
+  "id": "lRGqxCIe2dCqkWFZ",
+  "tags": []
+}
