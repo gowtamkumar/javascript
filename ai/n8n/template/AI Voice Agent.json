@@ -1,0 +1,216 @@
+{
+  "name": "AI Voice Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are an AI agent that manages information in a Google Sheet. Your job is to read incoming chat messages, review the current sheet data And answer the user query\n\nWhatever question the user asks always go to the Google Sheet to refer for the answer\n\n## Core Process\n\n1. **Read the message**: Understand what the user is asking for or reporting\n2. **Review the sheet**: Use the read tool to get current data from all relevant sections\n3. **Analyze**: Determine what information needs to be shared\n4. Check Availability : Use the Calendar Get tool to check the availability\n5. Book Session : Use the Create Calendar tool to book the session \n6. **Confirm**: Once the client gives the confirmation shoot a mail of the confirmation to the client using the Send email tool \n\n## Available Tools\n\n- `read_google_sheet`: Retrieves current data from the Google Sheet\n- get_google_calendar : Retrieves the availability if the user asks for\n- create_google_calendar : If the user asked to book the date and time create an event in the calendar\n\n## Guidelines\n\n- Always read the sheet first before answering any query\n- If the message is unclear, ask for clarification\n- Provide a brief summary of what you updated after making changes\n\n## Response Format\n\n1. Read the current sheet data\n\nStay focused, efficient, and accurate in your updates.\n\nIf the user asks something and the data is not available on the sheet, Tell the user that you couldn't provide the information because of the privacy reason.\n\nNever mention  \"in the sheet\" to the user instead mention \"in the database\"\n\nKeep all the responses as concise as possible and not more than three lines or three sentences\n\nIf the user asks for date availability use the calendar tool to check the availability on those dates\n\nWhen the user asks for the booking confirmation and everything ask him or her his full an email address and then schedule an event Also in creating the event add the details.\n\nIf you are booking or checking the availability never say ‘event’  always say Slot"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        304,
+        0
+      ],
+      "id": "467c2e80-ce3b-4d74-bdfc-35ddaffcb580",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        224
+      ],
+      "id": "8772e751-e95c-447e-920c-83e477cd7385",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "cjZ1yEdAMDrw1u98",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 257265612,
+          "mode": "list",
+          "cachedResultName": "AI Voice Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1EiLyLCNe9W_40w_h4xERHphJY6vwsLuI6XyA6SMZhCg/edit#gid=257265612"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        224
+      ],
+      "id": "3904c5e9-3ea3-46ed-b810-dd73dfd394e9",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qZ95rW6wPwoSs0km",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "gowtampaul0@gmail.com",
+          "mode": "list",
+          "cachedResultName": "gowtampaul0@gmail.com"
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        656,
+        224
+      ],
+      "id": "859644d6-7517-4b1a-b89b-9fda31514c87",
+      "name": "Create an event in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "d4SOLk6ZuaTMyqWf",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        240
+      ],
+      "id": "7fa4a767-bc52-4130-a1d3-c59e0aa2b04f",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "path": "d7a598bf-52df-4011-bc78-d261b08049fc",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -48,
+        0
+      ],
+      "id": "2f409db2-a998-4a70-bb2b-ae52a14d8130",
+      "name": "Webhook",
+      "webhookId": "d7a598bf-52df-4011-bc78-d261b08049fc"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        768,
+        0
+      ],
+      "id": "3e449c23-a9ea-4030-8c5e-18d1e4b80b1b",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5f421d56-dda8-4c18-b961-1eb1c42a5427",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9804e6d7856e51862ab71241c526e1410c1caeb5b35968fb1c4553bfeafae876"
+  },
+  "id": "dzA4YXbXUI6OLqEW",
+  "tags": []
+}
