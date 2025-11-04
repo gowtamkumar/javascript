@@ -2,21 +2,36 @@ services:
   n8n:
     image: docker.n8n.io/n8nio/n8n
     container_name: n8n
+    restart: always # auto-restart on crash/reboot
     ports:
       - "5678:5678"
     environment:
-      - N8N_SECURE_COOKIE=false
-      - N8N_BASIC_AUTH_ACTIVE=true # optional: enable login protection
-      - N8N_BASIC_AUTH_USER=admin # change username
-      - N8N_BASIC_AUTH_PASSWORD=admin123 # change password
-      - N8N_HOST=n8n.local # optional, or use your domain/IP
+      - N8N_SECURE_COOKIE=true
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASS}
+      - N8N_HOST=${DOMAIN_NAME}
       - N8N_PORT=5678
-      - N8N_PROTOCOL=http
+      - N8N_PROTOCOL=https
+      - N8N_ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - WEBHOOK_URL=http://${DOMAIN_NAME}/
       - GENERIC_TIMEZONE=Asia/Dhaka
-      - WEBHOOK_URL=http://74.48.115.160:5678/
     volumes:
       - n8n_data:/home/node/.n8n
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: n8n_postgres
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=n8n
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=n8n
+    volumes:
+      - n8n_db_data:/var/lib/postgresql/data
 
 volumes:
   n8n_data:
-    name: n8n_data
+  n8n_db_data:
