@@ -313,3 +313,43 @@ You are using:
 This is **100% production ready**.
 
 ---
+
+## ok then if you follow this you can not get image so
+
+## but if you want get image by backend server as like api.gowtamkumar.com/uploads/image.png no need to down configaration update.
+
+# if you want to working need to change dokcer volume path.
+
+volumes: - /var/www/inventory/uploads:/app/public/uploads
+
+# then
+
+`sudo mkdir -p /var/www/gowtamkumar/uploads
+sudo chmod -R 777 /var/www/gowtamkumar/uploads`
+
+# then
+
+need to change nginx file path
+before
+
+    location /uploads/ {
+        alias /app/public/uploads/;
+        autoindex off;
+        access_log off;
+        expires max;
+    }
+
+after
+
+    location /uploads/ {
+        alias /var/www/inventory/uploads/;
+        autoindex off;
+        access_log off;
+        expires max;
+    }
+
+so right now you can get image:
+
+```
+gowtamkumar.com/uploads/image.png
+```
