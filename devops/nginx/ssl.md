@@ -353,3 +353,117 @@ so right now you can get image:
 ```
 gowtamkumar.com/uploads/image.png
 ```
+
+more example :
+Got it — **you are NOT using NGINX inside Docker**,
+you are running **NGINX directly on the VPS**, and only your **Node server + Next.js are inside Docker**.
+
+So for this URL to work:
+
+```
+https://somoypurbapar.com/uploads/thumbnailImage-1760608914960.jpg
+```
+
+you must ensure **two things**:
+
+---
+
+# ✅ **1. NGINX on VPS must point to a REAL folder that contains the uploaded images**
+
+Your NGINX config:
+
+```nginx
+location /uploads/ {
+    alias /app/public/uploads/;
+    autoindex off;
+    access_log off;
+    expires max;
+}
+```
+
+But `/app/public/uploads/` is **inside the Docker container**,
+not on the VPS host!
+
+NGINX on the host **cannot access files inside the Docker container** unless you mount a shared folder.
+
+---
+
+# ❗ Fix = Create a shared uploads directory on VPS
+
+### Step 1 — Create folder on your VPS
+
+```
+sudo mkdir -p /var/www/somoypurbapar/uploads
+sudo chmod -R 777 /var/www/somoypurbapar/uploads
+```
+
+---
+
+# Step 2 — Update docker-compose volume so container writes to VPS folder
+
+Update your **server** service:
+
+```yaml
+server:
+  ...
+  volumes:
+    - /var/www/somoypurbapar/uploads:/app/public/uploads
+```
+
+Now whatever your Node uploads → `/app/public/uploads`
+will actually be stored → `/var/www/somoypurbapar/uploads` (VPS file system).
+
+---
+
+# Step 3 — Fix NGINX on VPS
+
+Update your NGINX config:
+
+```nginx
+location /uploads/ {
+    alias /var/www/somoypurbapar/uploads/;
+    autoindex off;
+    access_log off;
+    expires max;
+}
+```
+
+Reload:
+
+```
+sudo systemctl reload nginx
+```
+
+---
+
+# 🔥 Now final output file path mapping
+
+| Where file is uploaded? | Path                                                |
+| ----------------------- | --------------------------------------------------- |
+| Node (Docker container) | `/app/public/uploads/thumbnail....jpg`              |
+| VPS actual storage      | `/var/www/somoypurbapar/uploads/thumbnail...jpg`    |
+| Public URL              | `https://somoypurbapar.com/uploads/thumbnail...jpg` |
+
+Everything works ✔️
+
+---
+
+# 🧪 **Test your image**
+
+From VPS:
+
+```
+ls /var/www/somoypurbapar/uploads
+```
+
+You should see:
+
+```
+thumbnailImage-1760608914960.jpg
+```
+
+If yes → URL works instantly.
+
+---
+
+# If you want, I can check your full NGINX configuration to avoid mistakes.
