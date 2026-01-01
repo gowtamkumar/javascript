@@ -3,6 +3,7 @@
 ## 📖 What This Does
 
 Monitor your VPS server (or local PC) for:
+
 - CPU, RAM, Disk usage
 - Docker containers
 - Services (nginx, docker)
@@ -27,6 +28,7 @@ SERVICES=nginx,docker
 **That's it for local testing!**
 
 For VPS remote monitoring, add:
+
 ```env
 MODE=remote
 VPS_HOST=your.vps.ip.address
@@ -39,15 +41,19 @@ VPS_PASSWORD=your_password
 ### Step 2: Choose What to Run
 
 **Option A: Quick Terminal Check (CLI)**
+
 ```bash
 npm run cli
 ```
+
 Shows all metrics once in your terminal.
 
 **Option B: Web Dashboard (Server)**
+
 ```bash
 npm start
 ```
+
 Then open browser: **http://localhost:4000**
 
 ---
@@ -61,6 +67,7 @@ Your monitoring is running! 🎉
 ## 🎯 Common Uses
 
 ### 1. Monitor Local PC
+
 ```bash
 # Edit .env
 MODE=local
@@ -69,26 +76,31 @@ API_PORT=4000
 # Run
 npm start
 ```
+
 Visit: http://localhost:4000
 
 ### 2. Monitor Remote VPS (from your PC)
+
 ```bash
 # Edit .env
 MODE=remote
-VPS_HOST=123.45.67.89
+VPS_HOST=0.0.0.0
 VPS_USERNAME=root
 VPS_PASSWORD=yourpass
 
 # Run
 npm start
 ```
+
 Visit: http://localhost:4000
 
 ### 3. Deploy to VPS Server
+
 ```bash
-VPS_IP=123.45.67.89 ./deployment/deploy.sh
+VPS_IP=0.0.0.0 ./deployment/deploy.sh
 ```
-Visit: http://123.45.67.89:3000
+
+Visit: http://0.0.0.0:3000
 
 ---
 
@@ -107,21 +119,22 @@ npm run cli:json    # JSON output
 
 When running `npm start`, access:
 
-| What | URL |
-|------|-----|
-| Dashboard | http://localhost:4000 |
-| All metrics | http://localhost:4000/api/metrics |
-| CPU only | http://localhost:4000/api/metrics/cpu |
-| Memory only | http://localhost:4000/api/metrics/memory |
-| Docker | http://localhost:4000/api/metrics/docker |
-| Services | http://localhost:4000/api/metrics/services |
-| Network | http://localhost:4000/api/metrics/network |
+| What        | URL                                        |
+| ----------- | ------------------------------------------ |
+| Dashboard   | http://localhost:4000                      |
+| All metrics | http://localhost:4000/api/metrics          |
+| CPU only    | http://localhost:4000/api/metrics/cpu      |
+| Memory only | http://localhost:4000/api/metrics/memory   |
+| Docker      | http://localhost:4000/api/metrics/docker   |
+| Services    | http://localhost:4000/api/metrics/services |
+| Network     | http://localhost:4000/api/metrics/network  |
 
 ---
 
 ## ⚙️ Configuration (.env)
 
 ### Basic Config (Local PC)
+
 ```env
 MODE=local
 API_PORT=4000
@@ -129,6 +142,7 @@ ENABLE_BANDWIDTH=false
 ```
 
 ### Remote VPS Config
+
 ```env
 MODE=remote
 VPS_HOST=your.vps.ip
@@ -139,12 +153,13 @@ ENABLE_BANDWIDTH=false
 ```
 
 ### Full Config
+
 ```env
 # Mode: 'local' or 'remote'
 MODE=local
 
 # VPS Connection (for remote mode)
-VPS_HOST=123.45.67.89
+VPS_HOST=0.0.0.0
 VPS_USERNAME=root
 VPS_PASSWORD=your_password
 
@@ -165,34 +180,43 @@ TOP_PROCESS_COUNT=10
 ## 🔧 Troubleshooting
 
 ### Port Already in Use
+
 **Error:** `EADDRINUSE: address already in use :::4000`
 
 **Fix:** Change port in `.env`:
+
 ```env
 API_PORT=5000
 ```
 
 ### Permission Error (Network)
+
 **Error:** `You don't have permission to capture`
 
 **Fix:** Set in `.env`:
+
 ```env
 ENABLE_BANDWIDTH=false
 ```
 
 Or run with sudo:
+
 ```bash
 sudo npm start
 ```
 
 ### MaxListenersExceededWarning
+
 **Solution:** Just ignore it, or use local mode:
+
 ```env
 MODE=local
 ```
 
 ### Can't Connect to VPS
+
 **Check:**
+
 1. VPS_HOST is correct IP
 2. VPS_USERNAME is correct (usually 'root')
 3. VPS_PASSWORD is correct
@@ -203,6 +227,7 @@ MODE=local
 ## 📝 Examples
 
 ### Example 1: Monitor Your Local PC
+
 ```bash
 # 1. Edit .env
 echo "MODE=local
@@ -217,10 +242,11 @@ npm start
 ```
 
 ### Example 2: Check Remote VPS
+
 ```bash
 # 1. Edit .env with your VPS details
 MODE=remote
-VPS_HOST=123.45.67.89
+VPS_HOST=0.0.0.0
 VPS_USERNAME=root
 VPS_PASSWORD=mypassword
 API_PORT=4000
@@ -233,12 +259,13 @@ npm start
 ```
 
 ### Example 3: Deploy to VPS
+
 ```bash
 # One command deployment
-VPS_IP=123.45.67.89 ./deployment/deploy.sh
+VPS_IP=0.0.0.0 ./deployment/deploy.sh
 
 # Access from anywhere
-# http://123.45.67.89:3000
+# http://0.0.0.0:3000
 ```
 
 ---
@@ -246,6 +273,7 @@ VPS_IP=123.45.67.89 ./deployment/deploy.sh
 ## ✅ What You'll See
 
 ### CLI Output
+
 ```
 ================================================================================
 🖥️  VPS MONITORING DASHBOARD - LOCAL MODE
@@ -272,7 +300,9 @@ VPS_IP=123.45.67.89 ./deployment/deploy.sh
 ```
 
 ### Web Dashboard
+
 Beautiful interface with:
+
 - ✅ System status
 - ✅ All metrics
 - ✅ API endpoints
@@ -283,16 +313,19 @@ Beautiful interface with:
 ## 🎓 Next Steps
 
 1. **Learn More:**
+
    - Full docs: `README.md`
    - Network setup: `NETWORK-SETUP.md`
    - Usage guide: `USAGE.md`
 
 2. **Deploy to Production:**
+
    ```bash
    VPS_IP=your.ip ./deployment/deploy.sh
    ```
 
 3. **Customize Monitoring:**
+
    - Edit `SERVICES=` in `.env`
    - Add more services: `mysql,postgresql,redis`
 
@@ -305,12 +338,14 @@ Beautiful interface with:
 ## 🆘 Need Help?
 
 **Quick fixes:**
+
 - Port error → Change `API_PORT` in `.env`
 - Permission error → Set `ENABLE_BANDWIDTH=false`
 - Can't connect → Check VPS credentials
 - Warning messages → Ignore or use `MODE=local`
 
 **Docs:**
+
 - `README.md` - Complete documentation
 - `USAGE.md` - Detailed usage guide
 - `NETWORK-SETUP.md` - Network troubleshooting
