@@ -422,6 +422,7 @@ app.get('/', (req, res) => {
           <div class="tab" onclick="showSection('processes')"><i class="fas fa-list"></i> Processes</div>
           <div class="tab" onclick="showSection('services')"><i class="fas fa-cogs"></i> Services</div>
           <div class="tab" onclick="showSection('logs')"><i class="fas fa-file-alt"></i> Logs</div>
+          <div class="tab" onclick="showSection('api-doc')"><i class="fas fa-book"></i> API</div>
         </div>
 
         <div id="docker" class="card section active">
@@ -466,8 +467,36 @@ app.get('/', (req, res) => {
         </div>
 
         <div id="logs" class="card section">
-          <div class="card-header"><h2>System Logs</h2></div>
+          <div class="card-header">
+            <h2>System Logs</h2>
+            <button onclick="document.getElementById('log-output').innerText = 'Logs cleared. Next sync in 30s...'" class="btn btn-outline btn-sm"><i class="fas fa-eraser"></i> Clear</button>
+          </div>
           <pre id="log-output">Fetching logs...</pre>
+        </div>
+
+        <div id="api-doc" class="card section">
+          <div class="card-header"><h2>API Documentation</h2></div>
+          <p style="color: var(--text-dim); margin-bottom: 1rem;">Click on any endpoint to view the raw JSON data in a new tab.</p>
+          <div class="metrics-grid">
+            <div class="card" style="padding: 1rem;">
+              <h3 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--accent);">System Metrics</h3>
+              <a href="/api/metrics" target="_blank" class="btn btn-outline" style="width: 100%; margin-bottom: 0.5rem;"><i class="fas fa-link"></i> /api/metrics</a>
+              <a href="/api/metrics/cpu" target="_blank" class="btn btn-outline" style="width: 100%; margin-bottom: 0.5rem;"><i class="fas fa-microchip"></i> /api/metrics/cpu</a>
+              <a href="/api/metrics/memory" target="_blank" class="btn btn-outline" style="width: 100%;"><i class="fas fa-memory"></i> /api/metrics/memory</a>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <h3 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--accent);">Infrastructure</h3>
+              <a href="/api/metrics/docker" target="_blank" class="btn btn-outline" style="width: 100%; margin-bottom: 0.5rem;"><i class="fab fa-docker"></i> /api/metrics/docker</a>
+              <a href="/api/metrics/network" target="_blank" class="btn btn-outline" style="width: 100%; margin-bottom: 0.5rem;"><i class="fas fa-network-wired"></i> /api/metrics/network</a>
+              <a href="/api/metrics/services" target="_blank" class="btn btn-outline" style="width: 100%;"><i class="fas fa-cogs"></i> /api/metrics/services</a>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <h3 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--accent);">Application</h3>
+              <a href="/api/metrics/pm2" target="_blank" class="btn btn-outline" style="width: 100%; margin-bottom: 0.5rem;"><i class="fas fa-rocket"></i> /api/metrics/pm2</a>
+              <a href="/api/metrics/disk" target="_blank" class="btn btn-outline" style="width: 100%; margin-bottom: 0.5rem;"><i class="fas fa-hdd"></i> /api/metrics/disk</a>
+              <a href="/health" target="_blank" class="btn btn-outline" style="width: 100%;"><i class="fas fa-heartbeat"></i> /health</a>
+            </div>
+          </div>
         </div>
       </div>
 

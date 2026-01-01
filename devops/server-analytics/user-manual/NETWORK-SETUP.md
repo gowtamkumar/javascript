@@ -6,6 +6,20 @@
 
 ### Fix 1: Setup vnstat for Bandwidth Tracking
 
+run this command to check your network interface:
+
+```bash
+sudo apt update
+# sudo apt upgrade -y
+```
+
+
+run this command to install vnstat:
+
+```bash
+sudo apt install vnstat -y
+```
+
 ```bash
 # Initialize vnstat for your network interface
 sudo vnstat -i enp5s0
@@ -13,6 +27,8 @@ sudo vnstat -i enp5s0
 # Enable and start vnstat service  
 sudo systemctl enable vnstat
 sudo systemctl start vnstat
+
+ip link show
 
 # Wait 2-3 minutes, then check
 vnstat
