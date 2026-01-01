@@ -62,14 +62,24 @@ function formatMetrics(metrics) {
   console.log(`🕒 Timestamp: ${metrics.timestamp}`);
   console.log("=".repeat(80));
 
+  // Security Alerts
+  if (metrics.security_alerts && metrics.security_alerts.length > 0) {
+    console.log("\n⚠️  SECURITY ALERTS:");
+    metrics.security_alerts.forEach(alert => {
+      console.log(`   [FAIL] PID ${alert.pid} (${alert.command}): ${alert.reason}`);
+      console.log(`          Args: ${alert.args.substring(0, 70)}...`);
+    });
+  }
+
   // CPU
   console.log("\n📊 CPU Usage: " + metrics.cpu);
 
   // Memory
   console.log("\n💾 Memory:");
   console.log(`   Total: ${metrics.memory.total}`);
-  console.log(`   Used:  ${metrics.memory.used}`);
+  console.log(`   Used:  ${metrics.memory.used} (${metrics.memory.percent || 'N/A'})`);
   console.log(`   Free:  ${metrics.memory.free}`);
+  if (metrics.memory.available) console.log(`   Avail: ${metrics.memory.available}`);
 
   // Disks
   console.log("\n💿 Disk Usage:");
@@ -92,7 +102,8 @@ function formatMetrics(metrics) {
   if (metrics.docker && metrics.docker.length > 0) {
     console.log("\n🐳 Docker Containers:");
     metrics.docker.forEach(container => {
-      console.log(`   ${container.name}: CPU ${container.cpu}, Mem ${container.mem}`);
+      console.log(`   ${container.name}: CPU ${container.cpu}, Mem ${container.memUsage} (${container.memPerc || 'N/A'})`);
+      if (container.netIO) console.log(`      Net I/O: ${container.netIO} | Block I/O: ${container.blockIO}`);
     });
   }
 
@@ -119,8 +130,18 @@ function formatMetrics(metrics) {
     console.log(`   ${metrics.network}`);
   } else {
     console.log(`   Interface: ${metrics.network.interface || 'N/A'}`);
-    console.log(`   Total RX: ${metrics.network.total_rx || 'N/A'}`);
-    console.log(`   Total TX: ${metrics.network.total_tx || 'N/A'}`);
+    console.log(`   Total: RX ${metrics.network.total_rx} | TX ${metrics.network.total_tx}`);
+    if (metrics.network.daily_rx) {
+      console.log(`   Daily: RX ${metrics.network.daily_rx} | TX ${metrics.network.daily_tx}`);
+    }
+
+    if (metrics.network_speed) {
+      const iface = metrics.network.interface;
+      const speed = metrics.network_speed[iface] || Object.values(metrics.network_speed)[0];
+      if (speed && typeof speed !== 'string') {
+        console.log(`   Speed: RX ${speed.rx} | TX ${speed.tx}`);
+      }
+    }
   }
 
   // Disk I/O

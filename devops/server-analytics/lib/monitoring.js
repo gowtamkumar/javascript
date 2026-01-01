@@ -3,6 +3,17 @@ const util = require('util');
 const execPromise = util.promisify(exec);
 
 /**
+ * Formats bytes to human-readable format
+ */
+function formatBytes(bytes) {
+  if (bytes === 0 || isNaN(bytes)) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+/**
  * Execute command either via SSH or locally
  * @param {Object|null} ssh - SSH connection object (null for local mode)
  * @param {string} command - Command to execute
@@ -25,7 +36,8 @@ async function execCommand(ssh, command) {
 async function getCPUUsage(ssh) {
   try {
     const result = await execCommand(ssh, "top -b -n1 | grep 'Cpu(s)'");
-    const cpuMatch = result.stdout.match(/(\d+\.\d+)%id/);
+    // Match both "Cpu(s):" and "%Cpu(s):" formats
+    const cpuMatch = result.stdout.match(/(\d+\.\d+)\s*id/);
     const cpuUsage = cpuMatch ? 100 - parseFloat(cpuMatch[1]) : null;
     return cpuUsage !== null ? cpuUsage.toFixed(2) + "%" : "N/A";
   } catch (err) {
@@ -38,14 +50,23 @@ async function getCPUUsage(ssh) {
  */
 async function getMemoryUsage(ssh) {
   try {
-    const result = await execCommand(ssh, "free -m");
-    const memLines = result.stdout.split("\n");
-    const memParts = memLines[1].split(/\s+/);
+    const result = await execCommand(ssh, "free -b"); // Use bytes for precise parsing
+    const lines = result.stdout.split("\n");
+    const memMatch = lines[1].match(/Mem:\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/);
+
+    if (!memMatch) throw new Error("Could not parse memory output");
+
+    const total = parseInt(memMatch[1]);
+    const used = parseInt(memMatch[2]);
+    const free = parseInt(memMatch[3]);
+    const available = parseInt(memMatch[6]);
+
     return {
-      total: parseInt(memParts[1]) + "MB",
-      used: parseInt(memParts[2]) + "MB",
-      free: parseInt(memParts[3]) + "MB",
-      available: memParts[6] ? parseInt(memParts[6]) + "MB" : "N/A"
+      total: formatBytes(total),
+      used: formatBytes(used),
+      free: formatBytes(free),
+      available: formatBytes(available),
+      percent: ((used / total) * 100).toFixed(1) + "%"
     };
   } catch (err) {
     return { error: err.message };
@@ -80,12 +101,19 @@ async function getDiskUsage(ssh) {
  */
 async function getDockerStats(ssh) {
   try {
-    const result = await execCommand(ssh, "docker stats --no-stream --format '{{.Name}}: {{.CPUPerc}} {{.MemUsage}}'");
+    const result = await execCommand(ssh, "docker stats --no-stream --format '{{.Name}}: {{.CPUPerc}} || {{.MemUsage}} || {{.MemPerc}} || {{.NetIO}} || {{.BlockIO}}'");
     if (!result.stdout) return [];
 
     return result.stdout.split("\n").filter(line => line.trim()).map(line => {
-      const [name, cpu, mem] = line.split(/: | /).filter(Boolean);
-      return { name, cpu, mem };
+      const [name, cpu, mem, memPerc, net, block] = line.split(" || ");
+      return {
+        name: name.replace(':', ''),
+        cpu,
+        memUsage: mem,
+        memPerc,
+        netIO: net,
+        blockIO: block
+      };
     });
   } catch (err) {
     return [];
@@ -97,12 +125,12 @@ async function getDockerStats(ssh) {
  */
 async function getAllContainers(ssh) {
   try {
-    const result = await execCommand(ssh, "docker ps -a --format '{{.Names}} || {{.Status}} || {{.Image}}'");
+    const result = await execCommand(ssh, "docker ps -a --format '{{.Names}} || {{.Status}} || {{.Image}} || {{.ID}}'");
     if (!result.stdout) return [];
 
     return result.stdout.split("\n").filter(line => line.trim()).map(line => {
-      const [name, status, image] = line.split(" || ");
-      return { name, status, image };
+      const [name, status, image, id] = line.split(" || ");
+      return { name, status, image, id };
     });
   } catch (err) {
     return [];
@@ -114,10 +142,24 @@ async function getAllContainers(ssh) {
  */
 async function getContainerProcesses(ssh, containerName) {
   try {
-    const result = await execCommand(ssh, `docker top ${containerName}`);
-    return result.stdout;
+    const result = await execCommand(ssh, `docker top ${containerName} -eo pid,user,%cpu,%mem,comm`);
+    if (!result.stdout) return [];
+
+    const lines = result.stdout.split("\n").filter(line => line.trim());
+    const header = lines[0].toLowerCase().split(/\s+/);
+
+    return lines.slice(1).map(line => {
+      const parts = line.trim().split(/\s+/);
+      return {
+        pid: parts[0],
+        user: parts[1],
+        cpu: parts[2] + "%",
+        mem: parts[3] + "%",
+        command: parts.slice(4).join(" ")
+      };
+    });
   } catch (err) {
-    return `Error: ${err.message}`;
+    return [];
   }
 }
 
@@ -147,7 +189,7 @@ async function getPM2Processes(ssh) {
       id: proc.pm_id,
       status: proc.pm2_env.status,
       cpu: proc.monit.cpu + "%",
-      memory: (proc.monit.memory / 1024 / 1024).toFixed(1) + "MB",
+      memory: formatBytes(proc.monit.memory),
       uptime: Math.floor((new Date().getTime() - proc.pm2_env.pm_uptime) / 1000) + "s"
     }));
   } catch (err) {
@@ -173,6 +215,40 @@ async function getTopProcesses(ssh, count = 10) {
         command: parts.slice(4).join(" ")
       };
     });
+  } catch (err) {
+    return [];
+  }
+}
+
+/**
+ * Security: Detect suspicious processes
+ */
+async function getSecurityAlerts(ssh) {
+  try {
+    const suspiciousPaths = ['/tmp', '/var/tmp', '/dev/shm', '/tmp/.', '/var/run'];
+    const result = await execCommand(ssh, `ps -eo pid,user,comm,args --no-headers`);
+    const lines = result.stdout.split("\n").filter(line => line.trim());
+
+    const alerts = [];
+    lines.forEach(line => {
+      const parts = line.trim().split(/\s+/);
+      const fullCommand = parts.slice(3).join(" ");
+
+      // Check if process is running from suspicious path
+      suspiciousPaths.forEach(path => {
+        if (fullCommand.includes(path) && !fullCommand.includes('node_modules')) {
+          alerts.push({
+            pid: parts[0],
+            user: parts[1],
+            command: parts[2],
+            args: fullCommand,
+            reason: `Process running from ${path}`
+          });
+        }
+      });
+    });
+
+    return alerts;
   } catch (err) {
     return [];
   }
@@ -205,10 +281,18 @@ async function getNetworkStats(ssh) {
     if (!result.stdout) return "vnstat not installed or no data";
 
     const data = JSON.parse(result.stdout);
+    const iface = data.interfaces?.[0];
+
+    if (!iface) return "No data found in vnstat";
+
     return {
-      interface: data.interfaces?.[0]?.name || "N/A",
-      total_rx: data.interfaces?.[0]?.traffic?.total?.rx || 0,
-      total_tx: data.interfaces?.[0]?.traffic?.total?.tx || 0
+      interface: iface.name,
+      total_rx: formatBytes(iface.traffic?.total?.rx || 0),
+      total_tx: formatBytes(iface.traffic?.total?.tx || 0),
+      daily_rx: formatBytes(iface.traffic?.day?.[0]?.rx || 0),
+      daily_tx: formatBytes(iface.traffic?.day?.[0]?.tx || 0),
+      raw_rx: iface.traffic?.total?.rx || 0,
+      raw_tx: iface.traffic?.total?.tx || 0
     };
   } catch (err) {
     return "vnstat not installed or no data";
@@ -234,15 +318,43 @@ async function getLiveBandwidth(ssh) {
 }
 
 /**
- * Get network speed via nload (alternative)
+ * Get Network throughput (bytes/sec)
  */
 async function getNetworkSpeed(ssh) {
   try {
-    // nload doesn't work well non-interactively, use alternative
-    const result = await execCommand(ssh, "cat /proc/net/dev");
-    return result.stdout;
+    const result1 = await execCommand(ssh, "cat /proc/net/dev");
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const result2 = await execCommand(ssh, "cat /proc/net/dev");
+
+    const parseDev = (out) => {
+      const lines = out.split("\n");
+      const stats = {};
+      lines.forEach(line => {
+        if (line.includes(":")) {
+          const parts = line.trim().split(/\s+/);
+          const name = parts[0].replace(":", "");
+          stats[name] = { rx: parseInt(parts[1]), tx: parseInt(parts[9]) };
+        }
+      });
+      return stats;
+    };
+
+    const s1 = parseDev(result1.stdout);
+    const s2 = parseDev(result2.stdout);
+
+    const speed = {};
+    Object.keys(s2).forEach(iface => {
+      if (s1[iface]) {
+        speed[iface] = {
+          rx: formatBytes(s2[iface].rx - s1[iface].rx) + "/s",
+          tx: formatBytes(s2[iface].tx - s1[iface].tx) + "/s"
+        };
+      }
+    });
+
+    return speed;
   } catch (err) {
-    return "Error: " + err.message;
+    return { error: err.message };
   }
 }
 
@@ -285,16 +397,29 @@ async function getSystemLogs(ssh, lines = 20) {
 }
 
 /**
+ * Get internal stats for the monitor itself
+ */
+function getSelfHealth() {
+  return {
+    uptime: Math.floor(process.uptime()) + "s",
+    memory: formatBytes(process.memoryUsage().rss),
+    version: require('../package.json').version,
+    node: process.version
+  };
+}
+
+/**
  * Get all metrics - main function
  */
 async function getAllMetrics(ssh, config) {
   const metrics = {
     timestamp: new Date().toISOString(),
     mode: config.mode || (ssh ? 'remote' : 'local'),
-    ip: config.vps?.host || 'localhost'
+    ip: config.vps?.host || 'localhost',
+    monitor: getSelfHealth()
   };
 
-  // Gather all metrics in parallel for better performance
+  // Gather all metrics in parallel
   const [
     cpu,
     memory,
@@ -305,8 +430,10 @@ async function getAllMetrics(ssh, config) {
     topProcesses,
     services,
     networkStats,
+    networkSpeed,
     diskIO,
-    logs
+    logs,
+    security
   ] = await Promise.all([
     getCPUUsage(ssh),
     getMemoryUsage(ssh),
@@ -317,8 +444,10 @@ async function getAllMetrics(ssh, config) {
     getTopProcesses(ssh, config.monitoring?.topProcessCount || 10),
     getServiceStatus(ssh, config.monitoring?.services || ['nginx', 'docker']),
     getNetworkStats(ssh),
+    getNetworkSpeed(ssh),
     getDiskIO(ssh),
-    getSystemLogs(ssh, 20)
+    getSystemLogs(ssh, 20),
+    getSecurityAlerts(ssh)
   ]);
 
   metrics.cpu = cpu;
@@ -330,8 +459,24 @@ async function getAllMetrics(ssh, config) {
   metrics.top_processes = topProcesses;
   metrics.services = services;
   metrics.network = networkStats;
+  metrics.network_speed = networkSpeed;
   metrics.disk_io = diskIO;
   metrics.logs = logs;
+  metrics.security_alerts = security;
+
+  // Enhance Docker metrics with internal processes
+  if (allContainers.length > 0) {
+    metrics.container_processes = {};
+    const runningContainers = allContainers.filter(c => c.status.toLowerCase().includes('up'));
+
+    const procResults = await Promise.all(
+      runningContainers.map(c => getContainerProcesses(ssh, c.name))
+    );
+
+    runningContainers.forEach((c, i) => {
+      metrics.container_processes[c.name] = procResults[i];
+    });
+  }
 
   // Optional: Get bandwidth if enabled
   if (config.monitoring?.enableBandwidthMonitoring) {
@@ -366,6 +511,7 @@ module.exports = {
   getContainerLogs,
   getPM2Processes,
   getTopProcesses,
+  getSecurityAlerts,
   getServiceStatus,
   getNetworkStats,
   getLiveBandwidth,

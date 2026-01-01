@@ -228,7 +228,52 @@ app.get('/api/metrics/logs', authenticateApiKey, async (req, res) => {
 });
 
 /**
- * Simple web dashboard (optional)
+ * Get container logs (granular)
+ */
+app.get('/api/metrics/docker/:name/logs', authenticateApiKey, async (req, res) => {
+  try {
+    const { name } = req.params;
+    const lines = req.query.lines || 100;
+
+    let sshConnection = null;
+    if (config.mode === 'remote') {
+      await ssh.connect(config.vps);
+      sshConnection = ssh;
+    }
+
+    const logs = await monitoring.getContainerLogs(sshConnection, name, lines);
+
+    if (sshConnection) ssh.dispose();
+    res.json({ name, logs });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * Get container processes (granular)
+ */
+app.get('/api/metrics/docker/:name/top', authenticateApiKey, async (req, res) => {
+  try {
+    const { name } = req.params;
+
+    let sshConnection = null;
+    if (config.mode === 'remote') {
+      await ssh.connect(config.vps);
+      sshConnection = ssh;
+    }
+
+    const processes = await monitoring.getContainerProcesses(sshConnection, name);
+
+    if (sshConnection) ssh.dispose();
+    res.json({ name, processes });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * Advanced Web Dashboard
  */
 app.get('/', (req, res) => {
   res.send(`
@@ -237,174 +282,370 @@ app.get('/', (req, res) => {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>VPS Monitoring Dashboard</title>
+      <title>VPS Monitor | ${config.mode.toUpperCase()}</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
       <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          min-height: 100vh;
-          padding: 20px;
-          color: #333;
+        :root {
+          --bg: #0f172a;
+          --card-bg: #1e293b;
+          --accent: #6366f1;
+          --success: #22c55e;
+          --warning: #f59e0b;
+          --danger: #ef4444;
+          --text: #f8fafc;
+          --text-dim: #94a3b8;
         }
-        .container {
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-        h1 {
-          color: white;
-          text-align: center;
-          margin-bottom: 30px;
-          font-size: 2.5rem;
-          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        .card {
-          background: white;
-          border-radius: 10px;
-          padding: 20px;
-          margin-bottom: 20px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        h2 {
-          color: #667eea;
-          margin-bottom: 15px;
-          border-bottom: 2px solid #667eea;
-          padding-bottom: 10px;
-        }
-        .endpoint {
-          background: #f8f9fa;
-          padding: 10px 15px;
-          margin: 10px 0;
-          border-radius: 5px;
-          border-left: 4px solid #667eea;
-        }
-        .endpoint code {
-          color: #764ba2;
-          font-weight: bold;
-        }
-        .status {
-          display: inline-block;
-          padding: 5px 15px;
-          border-radius: 20px;
-          background: #28a745;
-          color: white;
-          font-weight: bold;
-        }
-        .info-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 15px;
-          margin-top: 15px;
-        }
-        .info-item {
-          background: #f8f9fa;
-          padding: 15px;
-          border-radius: 5px;
-        }
-        .info-item strong {
-          color: #667eea;
-          display: block;
-          margin-bottom: 5px;
-        }
-        .btn {
-          display: inline-block;
-          padding: 10px 20px;
-          background: #667eea;
-          color: white;
-          text-decoration: none;
-          border-radius: 5px;
-          margin: 5px;
-          transition: background 0.3s;
-        }
-        .btn:hover {
-          background: #764ba2;
-        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid #334155; padding-bottom: 1.5rem; }
+        .logo { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 0.75rem; color: var(--accent); }
+        .server-info { text-align: right; }
+        .server-info p { color: var(--text-dim); font-size: 0.875rem; }
+        
+        .badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .badge-success { background: rgba(34, 197, 94, 0.1); color: var(--success); border: 1px solid var(--success); }
+        
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        
+        .card { background: var(--card-bg); border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #334155; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+        .card-header h2 { font-size: 1rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+        .card-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(99, 102, 241, 0.1); color: var(--accent); }
+        
+        .metric-value { font-size: 2.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .progress-container { height: 8px; background: #334155; border-radius: 4px; overflow: hidden; margin: 1rem 0; }
+        .progress-bar { height: 100%; background: var(--accent); transition: width 0.5s ease; width: 0%; }
+        
+        .data-list { list-style: none; }
+        .data-item { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #334155; font-size: 0.9rem; }
+        .data-item:last-child { border-bottom: none; }
+        .data-label { color: var(--text-dim); }
+        
+        table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 1rem; }
+        th { color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; padding: 1rem; border-bottom: 1px solid #334155; }
+        td { padding: 1rem; border-bottom: 1px solid #334155; font-size: 0.9rem; }
+        tr:hover { background: rgba(255,255,255,0.02); }
+        
+        .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.5rem; }
+        .status-active { background: var(--success); box-shadow: 0 0 10px var(--success); }
+        .status-inactive { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
+        
+        .btn { padding: 0.5rem 1rem; border-radius: 0.5rem; border: none; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; background: var(--accent); color: white; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .btn:hover { filter: brightness(1.2); }
+        .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+        
+        .tabs { display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid #334155; }
+        .tab { padding: 1rem; cursor: pointer; color: var(--text-dim); border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+        
+        .section { display: none; }
+        .section.active { display: block; }
+        
+        #last-update { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.5rem; }
+        
+        .security-flag { background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); padding: 1rem; margin-bottom: 1rem; border-radius: 0 0.5rem 0.5rem 0; }
+        
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .loading { animation: pulse 2s infinite; }
+        
+        pre { background: #000; padding: 1rem; border-radius: 0.5rem; color: #0f0; font-family: 'Fira Code', monospace; font-size: 0.8rem; height: 300px; overflow-y: auto; white-space: pre-wrap; margin-top: 1rem; }
+        
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; }
+        .modal-content { background: var(--card-bg); width: 80%; max-width: 900px; border-radius: 1rem; padding: 2rem; border: 1px solid #334155; }
       </style>
     </head>
     <body>
       <div class="container">
-        <h1>🖥️ VPS Monitoring Dashboard</h1>
-        
-        <div class="card">
-          <h2>System Status</h2>
-          <p><span class="status">Online</span></p>
-          <div class="info-grid">
-            <div class="info-item">
-              <strong>Mode</strong>
-              <span>${config.mode}</span>
+        <header>
+          <div class="logo">
+            <i class="fas fa-server"></i>
+            VPS MONITOR
+          </div>
+          <div class="server-info">
+            <p>Host: <strong>${config.mode === 'remote' ? config.vps.host : 'localhost'}</strong></p>
+            <p>Mode: <span class="badge badge-success">${config.mode}</span></p>
+            <div id="last-update">Syncing...</div>
+          </div>
+        </header>
+
+        <div class="metrics-grid">
+          <div class="card">
+            <div class="card-header">
+              <h2>CPU Usage</h2>
+              <div class="card-icon"><i class="fas fa-microchip"></i></div>
             </div>
-            <div class="info-item">
-              <strong>Server</strong>
-              <span>${config.mode === 'remote' ? config.vps.host : 'localhost'}</span>
+            <div class="metric-value" id="cpu-val">0%</div>
+            <div class="progress-container"><div class="progress-bar" id="cpu-bar"></div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>RAM Usage</h2>
+              <div class="card-icon"><i class="fas fa-memory"></i></div>
             </div>
-            <div class="info-item">
-              <strong>API Port</strong>
-              <span>${config.api.port}</span>
+            <div class="metric-value" id="ram-val">0/0</div>
+            <div class="progress-container"><div class="progress-bar" id="ram-bar"></div></div>
+            <div id="ram-details" style="font-size: 0.8rem; color: var(--text-dim)">Checking...</div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>Disk Health</h2>
+              <div class="card-icon"><i class="fas fa-hdd"></i></div>
             </div>
-            <div class="info-item">
-              <strong>Refresh Interval</strong>
-              <span>${config.api.refreshInterval / 1000}s</span>
+            <div class="metric-value" id="disk-val">0%</div>
+            <div class="progress-container"><div class="progress-bar" id="disk-bar" style="background: var(--success)"></div></div>
+            <div id="disk-mount" style="font-size: 0.8rem; color: var(--text-dim)">Mount: /</div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>Network</h2>
+              <div class="card-icon"><i class="fas fa-network-wired"></i></div>
+            </div>
+            <div id="net-speed" style="font-size: 1.25rem; font-weight: bold; color: var(--accent)">0 B/s</div>
+            <div class="data-list" style="margin-top: 1rem">
+              <div class="data-item"><span class="data-label">Total RX</span> <span id="net-rx">0</span></div>
+              <div class="data-item"><span class="data-label">Total TX</span> <span id="net-tx">0</span></div>
             </div>
           </div>
         </div>
 
-        <div class="card">
-          <h2>API Endpoints</h2>
-          <p>Access real-time monitoring data via these endpoints:</p>
-          
-          <div class="endpoint">
-            <code>GET /api/metrics</code> - All metrics
-            <a href="/api/metrics" class="btn" target="_blank">View</a>
-          </div>
-          
-          <div class="endpoint">
-            <code>GET /api/metrics/cpu</code> - CPU usage
-            <a href="/api/metrics/cpu" class="btn" target="_blank">View</a>
-          </div>
-          
-          <div class="endpoint">
-            <code>GET /api/metrics/memory</code> - Memory usage
-            <a href="/api/metrics/memory" class="btn" target="_blank">View</a>
-          </div>
-          
-          <div class="endpoint">
-            <code>GET /api/metrics/disk</code> - Disk usage
-            <a href="/api/metrics/disk" class="btn" target="_blank">View</a>
-          </div>
-          
-          <div class="endpoint">
-            <code>GET /api/metrics/docker</code> - Docker containers
-            <a href="/api/metrics/docker" class="btn" target="_blank">View</a>
-          </div>
-          
-          <div class="endpoint">
-            <code>GET /api/metrics/network</code> - Network stats
-            <a href="/api/metrics/network" class="btn" target="_blank">View</a>
-          </div>
-          
-          <div class="endpoint">
-            <code>GET /api/metrics/services</code> - Service status
-            <a href="/api/metrics/services" class="btn" target="_blank">View</a>
-          </div>
-          
-          <div class="endpoint">
-            <code>GET /api/metrics/pm2</code> - PM2 processes
-            <a href="/api/metrics/pm2" class="btn" target="_blank">View</a>
-          </div>
-          
-          <div class="endpoint">
-            <code>GET /health</code> - Health check
-            <a href="/health" class="btn" target="_blank">View</a>
+        <div id="security-alerts-container"></div>
+
+        <div class="tabs">
+          <div class="tab active" onclick="showSection('docker')"><i class="fab fa-docker"></i> Docker</div>
+          <div class="tab" onclick="showSection('processes')"><i class="fas fa-list"></i> Processes</div>
+          <div class="tab" onclick="showSection('services')"><i class="fas fa-cogs"></i> Services</div>
+          <div class="tab" onclick="showSection('logs')"><i class="fas fa-file-alt"></i> Logs</div>
+        </div>
+
+        <div id="docker" class="card section active">
+          <table>
+            <thead>
+              <tr>
+                <th>Container</th>
+                <th>Status</th>
+                <th>CPU</th>
+                <th>Memory</th>
+                <th>Net I/O</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="docker-tbody">
+              <tr><td colspan="6" class="loading">Loading containers...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="processes" class="card section">
+          <table>
+            <thead>
+              <tr>
+                <th>PID</th>
+                <th>User</th>
+                <th>CPU</th>
+                <th>Memory</th>
+                <th>Command</th>
+              </tr>
+            </thead>
+            <tbody id="proc-tbody">
+              <tr><td colspan="5">Loading processes...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="services" class="card section">
+          <div class="metrics-grid" id="services-grid">
+            <!-- Services will be injected here -->
           </div>
         </div>
 
-        <div class="card">
-          <h2>Quick Actions</h2>
-          <a href="/api/metrics?refresh=true" class="btn">🔄 Force Refresh Metrics</a>
-          <a href="/api/metrics/docker" class="btn">🐳 View Docker Stats</a>
-          <a href="/api/metrics/services" class="btn">⚙️ Check Services</a>
+        <div id="logs" class="card section">
+          <div class="card-header"><h2>System Logs</h2></div>
+          <pre id="log-output">Fetching logs...</pre>
         </div>
       </div>
+
+      <div id="modal">
+        <div class="modal-content">
+          <div class="card-header">
+            <h2 id="modal-title">Details</h2>
+            <button onclick="closeModal()" class="btn btn-outline"><i class="fas fa-times"></i></button>
+          </div>
+          <pre id="modal-body"></pre>
+        </div>
+      </div>
+
+      <script>
+        function showSection(id) {
+          document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.getElementById(id).classList.add('active');
+          event.currentTarget.classList.add('active');
+        }
+
+        async function fetchMetrics() {
+          try {
+            const res = await fetch('/api/metrics');
+            const data = await res.json();
+            updateUI(data);
+          } catch (err) {
+            console.error('Fetch error:', err);
+          }
+        }
+
+        function updateUI(data) {
+          // Update Timestamp & Monitor Health
+          document.getElementById('last-update').innerHTML = 
+            'Last sync: ' + new Date(data.timestamp).toLocaleTimeString() + '<br>' +
+            '<span style="font-size: 0.7rem; color: var(--accent)">' +
+              'Monitor: ' + (data.monitor?.uptime || "0s") + ' UP | ' + (data.monitor?.memory || "0MB") + ' RAM | Node ' + (data.monitor?.node || "N/A") +
+            '</span>';
+
+          // CPU
+          const cpu = parseFloat(data.cpu);
+          document.getElementById('cpu-val').innerText = data.cpu;
+          document.getElementById('cpu-bar').style.width = data.cpu;
+          document.getElementById('cpu-bar').style.backgroundColor = cpu > 80 ? 'var(--danger)' : cpu > 50 ? 'var(--warning)' : 'var(--accent)';
+
+          // RAM
+          if (data.memory) {
+            document.getElementById('ram-val').innerText = data.memory.percent || (data.memory.used + '/' + data.memory.total);
+            document.getElementById('ram-bar').style.width = data.memory.percent || '0%';
+            document.getElementById('ram-details').innerText = 'Used: ' + data.memory.used + ' / Total: ' + data.memory.total;
+          }
+
+          // Disk
+          if (data.disks && data.disks.length > 0) {
+            const main = data.disks[0];
+            document.getElementById('disk-val').innerText = main.usage;
+            document.getElementById('disk-bar').style.width = main.usage;
+            document.getElementById('disk-mount').innerText = 'Mount: ' + main.mount + ' (' + main.size + ')';
+          }
+
+          // Network
+          if (data.network) {
+            document.getElementById('net-rx').innerText = data.network.total_rx;
+            document.getElementById('net-tx').innerText = data.network.total_tx;
+            
+            if (data.network_speed) {
+              const speed = data.network_speed[data.network.interface] || Object.values(data.network_speed)[0];
+              if (speed && typeof speed !== 'string') {
+                document.getElementById('net-speed').innerText = 'RX: ' + speed.rx + ' | TX: ' + speed.tx;
+              }
+            }
+          }
+
+          // Security
+          const secContainer = document.getElementById('security-alerts-container');
+          secContainer.innerHTML = '';
+          if (data.security_alerts && data.security_alerts.length > 0) {
+            data.security_alerts.forEach(alert => {
+              const div = document.createElement('div');
+              div.className = 'security-flag';
+              div.innerHTML = \`<strong><i class="fas fa-exclamation-triangle"></i> SECURITY ALERT</strong>: 
+                              PID \${alert.pid} (\${alert.command}) is running from \${alert.reason}.\`;
+              secContainer.appendChild(div);
+            });
+          }
+
+          // Docker
+          const dockerTable = document.getElementById('docker-tbody');
+          dockerTable.innerHTML = '';
+          const stats = data.docker || [];
+          data.all_containers.forEach(container => {
+            const stat = stats.find(s => s.name === container.name) || {};
+            const tr = document.createElement('tr');
+            const isActive = container.status.toLowerCase().includes('up');
+            
+            tr.innerHTML = \`
+              <td><strong>\${container.name}</strong><br><small style="color:var(--text-dim)">\${container.image}</small></td>
+              <td><span class="status-dot \${isActive ? 'status-active' : 'status-inactive'}"></span> \${container.status}</td>
+              <td>\${stat.cpu || '--'}</td>
+              <td>\${stat.memUsage || '--'} (\${stat.memPerc || '--'})</td>
+              <td>\${stat.netIO || '--'}</td>
+              <td>
+                <button onclick="viewLogs('\${container.name}')" class="btn btn-outline" title="Logs"><i class="fas fa-terminal"></i></button>
+                <button onclick="viewTop('\${container.name}')" class="btn btn-outline" title="Top"><i class="fas fa-list-ol"></i></button>
+              </td>
+            \`;
+            dockerTable.appendChild(tr);
+          });
+
+          // Processes
+          const procTable = document.getElementById('proc-tbody');
+          procTable.innerHTML = '';
+          data.top_processes.slice(0, 15).forEach(p => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = \`
+              <td>\${p.pid}</td>
+              <td>\${p.user}</td>
+              <td style="color:var(--accent); font-weight:bold">\${p.cpu}</td>
+              <td>\${p.mem}</td>
+              <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="\${p.command}">\${p.command}</td>
+            \`;
+            procTable.appendChild(tr);
+          });
+
+          // Services
+          const servGrid = document.getElementById('services-grid');
+          servGrid.innerHTML = '';
+          Object.entries(data.services).forEach(([name, status]) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = \`
+              <div class="card-header">
+                <h2 style="font-size:0.8rem">\${name}</h2>
+                <span class="status-dot \${status === 'active' ? 'status-active' : 'status-inactive'}"></span>
+              </div>
+              <div style="font-weight:bold; color:\${status === 'active' ? 'var(--success)' : 'var(--danger)'}">\${status.toUpperCase()}</div>
+            \`;
+            servGrid.appendChild(card);
+          });
+
+          // Logs
+          document.getElementById('log-output').innerText = data.logs;
+        }
+
+        async function viewLogs(name) {
+          openModal('Logs: ' + name);
+          document.getElementById('modal-body').innerText = 'Streaming logs...';
+          const res = await fetch('/api/metrics/docker/' + name + '/logs');
+          const data = await res.json();
+          document.getElementById('modal-body').innerText = data.logs;
+        }
+
+        async function viewTop(name) {
+          openModal('Internal Processes: ' + name);
+          document.getElementById('modal-body').innerText = 'Querying container...';
+          const res = await fetch('/api/metrics/docker/' + name + '/top');
+          const data = await res.json();
+          
+          let table = 'PID\tUSER\tCPU\tMEM\tCOMMAND\\n' + '-'.repeat(60) + '\\n';
+          data.processes.forEach(p => {
+            table += \`\${p.pid}\t\${p.user}\t\${p.cpu}\t\${p.mem}\t\${p.command}\\n\`;
+          });
+          document.getElementById('modal-body').innerText = table;
+        }
+
+        function openModal(title) {
+          document.getElementById('modal').style.display = 'flex';
+          document.getElementById('modal-title').innerText = title;
+        }
+
+        function closeModal() {
+          document.getElementById('modal').style.display = 'none';
+        }
+
+        // Auto Refresh
+        setInterval(fetchMetrics, ${config.api.refreshInterval});
+        fetchMetrics();
+      </script>
     </body>
     </html>
   `);
