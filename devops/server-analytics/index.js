@@ -17,8 +17,6 @@ const { NodeSSH } = require("node-ssh");
 const config = require("./config");
 const monitoring = require("./lib/monitoring");
 
-const ssh = new NodeSSH();
-
 // Parse command line arguments
 const args = process.argv.slice(2);
 const jsonOutput = args.includes('--json');
@@ -159,6 +157,7 @@ function formatMetrics(metrics) {
  * Main monitoring function
  */
 async function runMonitoring() {
+  const ssh = new NodeSSH();
   try {
     let sshConnection = null;
 
@@ -181,16 +180,12 @@ async function runMonitoring() {
       formatMetrics(metrics);
     }
 
-    // Disconnect SSH if used
-    if (sshConnection) {
-      ssh.dispose();
-    }
-
     return metrics;
   } catch (err) {
     console.error("❌ Error fetching metrics:", err.message);
-    if (ssh) ssh.dispose();
     throw err;
+  } finally {
+    ssh.dispose();
   }
 }
 
@@ -225,7 +220,6 @@ if (watchMode) {
 // Graceful shutdown
 process.on('SIGINT', () => {
   console.log('\n👋 Shutting down...');
-  ssh.dispose();
   process.exit(0);
 });
 

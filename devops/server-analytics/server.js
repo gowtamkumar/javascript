@@ -5,10 +5,6 @@ const config = require('./config');
 const monitoring = require('./lib/monitoring');
 
 const app = express();
-const ssh = new NodeSSH();
-
-// Fix MaxListenersExceededWarning
-ssh.connection?.setMaxListeners?.(20);
 
 // Middleware
 app.use(express.json());
@@ -45,6 +41,7 @@ async function getMetrics(forceRefresh = false) {
     return cachedMetrics;
   }
 
+  const ssh = new NodeSSH();
   try {
     let sshConnection = null;
 
@@ -60,11 +57,6 @@ async function getMetrics(forceRefresh = false) {
     // Fetch all metrics
     const metrics = await monitoring.getAllMetrics(sshConnection, config);
 
-    // Disconnect SSH if used
-    if (sshConnection) {
-      ssh.dispose();
-    }
-
     // Update cache
     cachedMetrics = metrics;
     lastFetch = now;
@@ -73,6 +65,8 @@ async function getMetrics(forceRefresh = false) {
   } catch (error) {
     console.error('Error fetching metrics:', error);
     throw error;
+  } finally {
+    ssh.dispose();
   }
 }
 
@@ -231,6 +225,7 @@ app.get('/api/metrics/logs', authenticateApiKey, async (req, res) => {
  * Get container logs (granular)
  */
 app.get('/api/metrics/docker/:name/logs', authenticateApiKey, async (req, res) => {
+  const ssh = new NodeSSH();
   try {
     const { name } = req.params;
     const lines = req.query.lines || 100;
@@ -243,10 +238,11 @@ app.get('/api/metrics/docker/:name/logs', authenticateApiKey, async (req, res) =
 
     const logs = await monitoring.getContainerLogs(sshConnection, name, lines);
 
-    if (sshConnection) ssh.dispose();
     res.json({ name, logs });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  } finally {
+    ssh.dispose();
   }
 });
 
@@ -254,6 +250,7 @@ app.get('/api/metrics/docker/:name/logs', authenticateApiKey, async (req, res) =
  * Get container processes (granular)
  */
 app.get('/api/metrics/docker/:name/top', authenticateApiKey, async (req, res) => {
+  const ssh = new NodeSSH();
   try {
     const { name } = req.params;
 
@@ -265,10 +262,11 @@ app.get('/api/metrics/docker/:name/top', authenticateApiKey, async (req, res) =>
 
     const processes = await monitoring.getContainerProcesses(sshConnection, name);
 
-    if (sshConnection) ssh.dispose();
     res.json({ name, processes });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  } finally {
+    ssh.dispose();
   }
 });
 
@@ -694,6 +692,5 @@ app.listen(PORT, () => {
 // Graceful shutdown
 process.on('SIGINT', () => {
   console.log('\n👋 Shutting down gracefully...');
-  ssh.dispose();
   process.exit(0);
 });

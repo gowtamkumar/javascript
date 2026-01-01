@@ -1,16 +1,16 @@
 const { NodeSSH } = require("node-ssh");
 const dotenv = require("dotenv");
 dotenv.config();
-const ssh = new NodeSSH();
 
 // VPS connection info (reusing the sanitized logic from your success)
 const vps = {
-  host: process.env.VPS_HOST.replace(/['",]/g, ""),
-  username: process.env.VPS_USERNAME.replace(/['",]/g, ""),
-  password: process.env.VPS_PASSWORD.replace(/['",]/g, ""),
+  host: (process.env.VPS_HOST || "").replace(/['",]/g, ""),
+  username: (process.env.VPS_USERNAME || "").replace(/['",]/g, ""),
+  password: (process.env.VPS_PASSWORD || "").replace(/['",]/g, ""),
 };
 
 async function investigate() {
+  const ssh = new NodeSSH();
   try {
     console.log("Connecting to VPS...");
     await ssh.connect(vps);
@@ -29,9 +29,10 @@ async function investigate() {
     const checkFile = await ssh.execCommand("docker exec somoypurbapar_client_app ls -l /var/Sofia");
     console.log(checkFile.stdout || checkFile.stderr);
 
-    ssh.dispose();
   } catch (err) {
     console.error("Error investigating:", err);
+  } finally {
+    ssh.dispose();
   }
 }
 
