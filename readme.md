@@ -633,7 +633,7 @@
 - [ ] Reload NGINX | `sudo nginx -t` then `sudo systemctl reload nginx` |
       | 🧪 5. Mini Project Ideas |
       🔨 **Mini Project:**  
-      Build a Full-Stack LMS App:
+       Build a Full-Stack LMS App:
 
 - Stack: Next.js + NestJS + PostgreSQL + Redis + Docker
 - Features: Auth, posts, comments
@@ -645,70 +645,70 @@
 
 ## 🚀 Phase 2: Real-World Engineering (Day 31–60)
 
-| Area                               | Priority                                                  | Focus                                       |
-| ---------------------------------- | --------------------------------------------------------- | ------------------------------------------- | -------------------------------------------------- |
-| SDLC                               | ⭐⭐                                                      | Agile, GitFlow, deployments                 |
-| 1. SDLC Phases (7 Core Stages)     |
-| ✅                                 | Phase                                                     | Description                                 | Your Role as a Dev                                 |
-| -                                  | ---------------------------                               | ------------------------------------------- | -------------------------------------------------- |
-| ☐                                  | **1. Planning**                                           | Define scope, budget, timeline, feasibility | Give technical input (stack, time estimate)        |
-| ☐                                  | **2. Requirement Analysis**                               | Gather business/user needs                  | Translate to user stories or features              |
-| ☐                                  | **3. Design**                                             | System architecture, database, UI/UX        | Design DB schema, APIs, wireframes                 |
-| ☐                                  | **4. Development**                                        | Actual coding phase                         | Write frontend/backend code, follow best practices |
-| ☐                                  | **5. Testing**                                            | Verify everything works as expected         | Write & run unit, integration, e2e tests           |
-| ☐                                  | **6. Deployment**                                         | Push to production/staging                  | Dockerize, setup CI/CD, deploy on AWS/VPS          |
-| ☐                                  | **7. Maintenance**                                        | Fix bugs, monitor performance               | Log errors, handle feedback, patch updates         |
-| 🔹 2. Development Methodologies    |
-| ✅                                 | Method                                                    | Description                                 | Notes                                              |
-| -                                  | -------------                                             | ------------------------------------------  | -------------------------------------------        |
-| ☐                                  | **Agile**                                                 | Iterative, fast feedback loops              | Most common in startups/teams                      |
-| ☐                                  | **Scrum**                                                 | Agile framework: sprints, standups          | Daily syncs, sprint planning                       |
-| ☐                                  | **Kanban**                                                | Visual task board (Trello/GitHub Projects)  | Continuous delivery-focused                        |
-| ☐                                  | **Waterfall**                                             | Linear phase-by-phase                       | Rare today, used in fixed-contract projects        |
-| 🔹 3. Deliverables You Should Know |
-| ✅                                 | Document                                                  | Description                                 | Tool                                               |
-| -                                  | ----------------------------------                        | -------------------------------             | ------------------------------                     |
-| ☐                                  | Product Requirement Document (PRD)                        | Business features/goals                     | Notion, Google Docs                                |
-| ☐                                  | Technical Design Document (TDD)                           | DB schema, APIs, tech choices               | Markdown, diagrams                                 |
-| ☐                                  | User Stories                                              | Features from user's POV                    | Jira, Trello                                       |
-| ☐                                  | Acceptance Criteria                                       | "Done" definition for each task             | GitHub Issues                                      |
-| ☐                                  | Sprint Reports                                            | Summary of what's completed                 | Optional but valuable in teams                     |
-| 🔹 4. Dev Team Roles in SDLC       |
-| Role                               | Responsibility                                            |
-| -----------------------            | -----------------------------------------------           |
-| Product Manager                    | Defines business goals, prioritizes features              |
-| Project Manager                    | Manages timelines, deadlines, team coordination           |
-| Software Engineer (You)            | Builds and maintains system                               |
-| QA Engineer                        | Writes and runs test cases                                |
-| DevOps Engineer                    | Handles deployment, CI/CD, monitoring                     |
-| 🔹 5. Best Practices for You       |
-| ✅                                 | Practice                                                  | Why                                         |
-| -                                  | -----------------------------                             | --------------------------------            |
-| ☐                                  | Always clarify requirements                               | Avoid building the wrong feature            |
-| ☐                                  | Break down tasks                                          | Easier tracking + testing                   |
-| ☐                                  | Use version control (Git)                                 | Track changes, rollbacks                    |
-| ☐                                  | Automate testing                                          | Confidence with every change                |
-| ☐                                  | Automate deployment                                       | Fast, consistent releases                   |
-| ☐                                  | Track bugs & feature requests                             | Maintain project quality                    |
-| ☐                                  | Monitor live apps                                         | Use logging + uptime tools                  |
-| 🔹 6. Tools to Use                 |
-| Area                               | Tools                                                     |
-| ------------                       | ----------------------------------                        |
-| Project Mgmt                       | Jira, Trello, GitHub Projects                             |
-| Diagrams                           | draw\.io, Excalidraw, Lucidchart                          |
-| CI/CD                              | GitHub Actions, GitLab CI, Jenkins                        |
-| Docs                               | Notion, Google Docs, Obsidian                             |
-| Monitoring                         | LogRocket, Sentry, UptimeRobot                            |
-| 🔹 7. Mini Project Simulation      |
-| Task                               | Apply This                                                |
-| ---------------                    | --------------------------------------------------------- |
-| Plan a chat app                    | Define features: Auth, 1-1 chat, group chat               |
-| Design system                      | Create DB schema, API routes, app flow                    |
-| Sprint plan                        | Break into stories: `login`, `send message`, `join group` |
-| Code                               | Use GitHub for tracking                                   |
-| Test                               | Write Jest/unit + e2e tests                               |
-| Deploy                             | CI/CD to Docker + VPS                                     |
-| Maintain                           | Setup logs, uptime monitor, fix bugs                      |
+| Area                                     | Priority                                                  | Focus                                              |
+| ---------------------------------------- | --------------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| SDLC                                     | ⭐⭐                                                      | Agile, GitFlow, deployments                        |
+| 1. SDLC Phases (7 Core Stages)           |
+| ✅                                       | Phase                                                     | Description                                        | Your Role as a Dev                                 |
+| -                                        | ---------------------------                               | -------------------------------------------        | -------------------------------------------------- |
+| - [ ] **1. Planning**                    | Define scope, budget, timeline, feasibility               | Give technical input (stack, time estimate)        |
+| - [ ] **2. Requirement Analysis**        | Gather business/user needs                                | Translate to user stories or features              |
+| - [ ] **3. Design**                      | System architecture, database, UI/UX                      | Design DB schema, APIs, wireframes                 |
+| - [ ] **4. Development**                 | Actual coding phase                                       | Write frontend/backend code, follow best practices |
+| - [ ] **5. Testing**                     | Verify everything works as expected                       | Write & run unit, integration, e2e tests           |
+| - [ ] **6. Deployment**                  | Push to production/staging                                | Dockerize, setup CI/CD, deploy on AWS/VPS          |
+| - [ ] **7. Maintenance**                 | Fix bugs, monitor performance                             | Log errors, handle feedback, patch updates         |
+| 🔹 2. Development Methodologies          |
+| ✅                                       | Method                                                    | Description                                        | Notes                                              |
+| -                                        | -------------                                             | ------------------------------------------         | -------------------------------------------        |
+| - [ ] **Agile**                          | Iterative, fast feedback loops                            | Most common in startups/teams                      |
+| - [ ] **Scrum**                          | Agile framework: sprints, standups                        | Daily syncs, sprint planning                       |
+| - [ ] **Kanban**                         | Visual task board (Trello/GitHub Projects)                | Continuous delivery-focused                        |
+| - [ ] **Waterfall**                      | Linear phase-by-phase                                     | Rare today, used in fixed-contract projects        |
+| 🔹 3. Deliverables You Should Know       |
+| ✅                                       | Document                                                  | Description                                        | Tool                                               |
+| -                                        | ----------------------------------                        | -------------------------------                    | ------------------------------                     |
+| - [ ] Product Requirement Document (PRD) | Business features/goals                                   | Notion, Google Docs                                |
+| - [ ] Technical Design Document (TDD)    | DB schema, APIs, tech choices                             | Markdown, diagrams                                 |
+| - [ ] User Stories                       | Features from user's POV                                  | Jira, Trello                                       |
+| - [ ] Acceptance Criteria                | "Done" definition for each task                           | GitHub Issues                                      |
+| - [ ] Sprint Reports                     | Summary of what's completed                               | Optional but valuable in teams                     |
+| 🔹 4. Dev Team Roles in SDLC             |
+| Role                                     | Responsibility                                            |
+| -----------------------                  | -----------------------------------------------           |
+| Product Manager                          | Defines business goals, prioritizes features              |
+| Project Manager                          | Manages timelines, deadlines, team coordination           |
+| Software Engineer (You)                  | Builds and maintains system                               |
+| QA Engineer                              | Writes and runs test cases                                |
+| DevOps Engineer                          | Handles deployment, CI/CD, monitoring                     |
+| 🔹 5. Best Practices for You             |
+| ✅                                       | Practice                                                  | Why                                                |
+| -                                        | -----------------------------                             | --------------------------------                   |
+| - [ ] Always clarify requirements        | Avoid building the wrong feature                          |
+| - [ ] Break down tasks                   | Easier tracking + testing                                 |
+| - [ ] Use version control (Git)          | Track changes, rollbacks                                  |
+| - [ ] Automate testing                   | Confidence with every change                              |
+| - [ ] Automate deployment                | Fast, consistent releases                                 |
+| - [ ] Track bugs & feature requests      | Maintain project quality                                  |
+| - [ ] Monitor live apps                  | Use logging + uptime tools                                |
+| 🔹 6. Tools to Use                       |
+| Area                                     | Tools                                                     |
+| ------------                             | ----------------------------------                        |
+| Project Mgmt                             | Jira, Trello, GitHub Projects                             |
+| Diagrams                                 | draw\.io, Excalidraw, Lucidchart                          |
+| CI/CD                                    | GitHub Actions, GitLab CI, Jenkins                        |
+| Docs                                     | Notion, Google Docs, Obsidian                             |
+| Monitoring                               | LogRocket, Sentry, UptimeRobot                            |
+| 🔹 7. Mini Project Simulation            |
+| Task                                     | Apply This                                                |
+| ---------------                          | --------------------------------------------------------- |
+| Plan a chat app                          | Define features: Auth, 1-1 chat, group chat               |
+| Design system                            | Create DB schema, API routes, app flow                    |
+| Sprint plan                              | Break into stories: `login`, `send message`, `join group` |
+| Code                                     | Use GitHub for tracking                                   |
+| Test                                     | Write Jest/unit + e2e tests                               |
+| Deploy                                   | CI/CD to Docker + VPS                                     |
+| Maintain                                 | Setup logs, uptime monitor, fix bugs                      |
 
 | WebSocket | ⭐⭐⭐ | Real-time chat/notification |
 | 🌐 1. WebSocket Fundamentals |
