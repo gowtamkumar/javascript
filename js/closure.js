@@ -18,3 +18,18 @@ console.dir(newAdd);
 console.log(newAdd(20));
 // console.log(newAdd());
 // newAdd();
+
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => {
+    console.log("testing..", i); // resutl:3,3,3 this result wrong
+  }, 100);
+}
+
+// IIFE CLOSURE
+for (var i = 0; i < 3; i++) {
+  (function (j) {
+    setTimeout(() => {
+      console.log("IIFE CLOUSE", j);
+    }, 100);
+  })(i);
+}
