@@ -86,3 +86,27 @@ console.log("soft key", key);
 key.forEach((item) => {
   console.log(item, poly[item]);
 });
+
+// object value
+const value = Object.values(poly);
+
+console.log("Object value", value);
+
+/// object entries
+const entries = Object.entries(poly);
+console.log("entries", entries);
+
+// loop whth destructruing
+for (const [key, value] of Object.entries(poly)) {
+  console.log(key, value);
+}
+
+// convet object to array
+const obj = { a: 1, b: 2 };
+const arr = Object.entries(obj);
+
+console.log(arr);
+
+// array to object convert
+const convertObj = Object.fromEntries(arr);
+console.log(convertObj);
