@@ -78,3 +78,11 @@ class Gowtamkumar {
 const resGowtam = new Gowtamkumar("Paul KUmar");
 
 console.log("resGowtam", resGowtam);
+
+//object key
+const key = Object.keys(poly);
+console.log("soft key", key);
+
+key.forEach((item) => {
+  console.log(item, poly[item]);
+});
