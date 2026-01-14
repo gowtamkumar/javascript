@@ -110,3 +110,13 @@ console.log(arr);
 // array to object convert
 const convertObj = Object.fromEntries(arr);
 console.log(convertObj);
+
+//merging boject
+
+const user = { name: "Gowtam", age: 18 };
+const address = { city: "Dhaka", country: "BD" };
+const merged = { ...user, ...address };
+console.log(merged);
+const margedAssing = Object.assign({}, user, address);
+
+console.log("margedAssing", margedAssing);
