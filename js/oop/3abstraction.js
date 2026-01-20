@@ -1,4 +1,4 @@
-// abstraction hole inplemention detail ke hiden rakhe upere kisu interface diya.
+// abstraction hole inplemention details ke hidden rakhe upere kisu interface diya.
 // that,s mine car engine and car body. you are show just car body but you can not show car engine this abstraction
 // amra je sob kaj korlam ata jodi use kori tahole vitore ki hocca ta kintu amra bujte parchi na ar atai hole abstraction
 class ValoErray {

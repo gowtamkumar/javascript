@@ -1,5 +1,5 @@
 // jokhon kono function ke choriya chite na rekhe akta
-// object ba class ar moddha capsulate kora hoy tokon take incaptulate bole
+// object ba class ar moddha capsulate kora hoy tokon take encapsulate bole
 // privte is part of encapsulation
 
 class Car {
