@@ -1,5 +1,5 @@
 // if you use abstract keyword before class and method you can not access directly and can not create instant
-// if you use this abstract need to extended by onther class
+// if you use this abstract need to extended by onther class because abstract is incomplete class this create for other class
 // we can use function and class before
 abstract class Charater {
   public firstName: string;
@@ -17,7 +17,11 @@ abstract class Charater {
 // const result2 = new Charater("Gowtam", "kumar"); you can not use abstract method
 
 class FullTimeEmployee extends Charater {
-  constructor(firstName: string, lastName: string, private stipend: number) {
+  constructor(
+    firstName: string,
+    lastName: string,
+    private stipend: number,
+  ) {
     super(firstName, lastName);
   }
   getStipend(): number {
