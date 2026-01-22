@@ -1,44 +1,95 @@
-// class User {
-//   public id: number;
-//   private name: string;
-//   protected age: number;
-//   protected blance: number;
-//   constructor(id: number, name: string, age: number = 44, blance: number) {
-//     this.id = id;
-//     this.name = name;
-//     this.age = age;
-//     this.blance = blance;
-//   }
-//   greet(): void {
-//     console.log(`Hello ${this.name}`);
-//   }
+// const user = { name: "Boss", age: 25};
+
+// for (const key in user) {
+//   console.log(key, user[key as keyof typeof user]);
+// }
+// type userType = {
+//   name: string;
+//   age: string | number;
+//   greet: () => void;
+// };
+// const user: any = {
+//   name: "Boss",
+//   age: 25,
+//   greet() {
+//     console.log("Hello");
+//   },
+// };
+
+//  inhareitance using prototype
+
+// function User(this: { name: string }, name: string) {
+//   this.name = name;
 // }
 
-// class UserRoll extends User {
-//   show() {
-//     console.log(this.age);
-//   }
-//   changeAmount(value: number) {
-//     this.blance = value;
-//   }
+// User.prototype.sayHi = function () {
+//   console.log("HI", this.name);
+// };
+
+// function Admin(this: { name: string }, name: string) {
+//   User.call(this, name);
 // }
 
-// const resUser = new UserRoll(11, "gowtamkumar", 33, 20000);
+// Admin.prototype = Object.create(User.prototype);
 
-// resUser.show();
-// resUser.changeAmount(11);
-interface IUser {
-  id: number;
+// Admin.prototype.constructor = Admin;
+// Admin.prototype.deleteUser = function () {
+//   console.log("User Deleted");
+// };
+
+// const resAdmin = new (Admin as any)("Hello Admin");
+// console.log(resAdmin.sayHi());
+
+// //create Object
+
+// const parent = {
+//   greet() {
+//     console.log("Hello from parent");
+//   },
+// };
+
+// const child = Object.create(parent);
+// child.__proto__.greet();
+
+//es6
+
+class Person {
   name: string;
-  greet(): void;
-}
-class User implements IUser {
-  constructor(
-    public id: number,
-    public name: string,
-  ) {}
-  greet(): void {
-    console.log("hi Hello");
+  age: number;
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+  greet() {
+    console.log(
+      `Hello, my name is ${this.name} and I am ${this.age} years old.`,
+    );
   }
 }
-const resUser = new User(22, "gowtmakumar");
+
+const resPerson = new Person("Gowtam", 25);
+
+console.log(resPerson);
+
+// Encapsulation in js
+
+function BackAccount(initialBalance: number) {
+  let balance = initialBalance;
+
+  return {
+    deposit(amount: number) {
+      balance += amount;
+    },
+    withdrow(amount: number) {
+      if (amount <= balance) {
+        balance -= amount;
+      }
+    },
+  };
+}
+
+const myAccount = BackAccount(1000);
+myAccount.deposit(500);
+myAccount.withdrow(200);
+// myAccount.balance= 600 // you can not modify balance directly
+// console.log(myAccount.balance); // Error: balance is not accessible
