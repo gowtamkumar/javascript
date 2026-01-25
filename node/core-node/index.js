@@ -5,6 +5,7 @@ const fs = require("fs");
 const EventEmitter = require("events");
 
 const http = require("http");
+const { buffer } = require("stream/consumers");
 
 const emitter = new EventEmitter();
 
@@ -50,7 +51,7 @@ fs.readFile(`${__dirname}/myfile.txt`, (error, data) => {
 // stream and buffer
 // get data by stream
 
-console.log(`${__dirname}/doc.txt`);
+// console.log(`${__dirname}/doc.txt`);
 
 const readDatabyStream = fs.createReadStream(`${__dirname}/myfile.txt`); // "utf8"
 readDatabyStream.on("data", (chunk) => {
@@ -69,6 +70,37 @@ const writeStream = fs.createWriteStream(`${__dirname}/output.txt`); // here chu
 
 // this olternative for Stream
 readDatabyStream.pipe(writeStream);
+
+// buffer
+
+fs.readFile(`${__dirname}/myfile.txt`, (error, data) => {
+  if (error) {
+    console.log("error", error);
+  }
+
+  const readBuffer = Buffer.from(data);
+
+  console.log("readBuffer", readBuffer.toString());
+});
+// process info
+console.log("PID:", process.pid);
+console.log("Memory:", process.memoryUsage());
+console.log("Uptime:", process.uptime(), "seconds");
+
+process.on("SIGINT", () => {
+  console.log("Process is interrupted");
+  process.exit();
+});
+
+process.on("SIGTERM", () => {
+  console.log("Process is terminated");
+  process.exit();
+});
+
+// const readBuffer = Buffer.from(`${__dirname}/myfile.txt`);
+
+// console.log("readBuffer", readBuffer);
+// console.log("Buffer file", readBuffer.toString());
 
 // http
 const server = http.createServer((req, res) => {
