@@ -2,9 +2,15 @@ const path = require("path");
 const os = require("os");
 const fs = require("fs");
 
-const event = require("events");
+const EventEmitter = require("events");
 
 const http = require("http");
+
+const emitter = new EventEmitter();
+
+emitter.on("called", (filename) => {
+  console.log(`this is event emitter called from ${filename}`);
+});
 
 // const mypath = '/home/gowtam/Desktop/gowtam/Javascript/nodejs/index.js'
 // console.log("basename", path.parse(mypath) );
@@ -32,12 +38,28 @@ const http = require("http");
 //  })
 //  newimmter.emit('beelring', 'i am learning node.js core module')
 
+// file system
+
+fs.readFile(`${__dirname}/myfile.txt`, (error, data) => {
+  if (error) {
+    console.log("error", error);
+  }
+  // console.log("data", data.toString());
+});
+
 // stream and buffer
 // get data by stream
 
 console.log(`${__dirname}/doc.txt`);
 
 const readDatabyStream = fs.createReadStream(`${__dirname}/myfile.txt`); // "utf8"
+readDatabyStream.on("data", (chunk) => {
+  console.log("testing chunk", chunk.toString());
+});
+
+readDatabyStream.on("end", () => {
+  console.log("File reading finished");
+});
 const writeStream = fs.createWriteStream(`${__dirname}/output.txt`); // here chunk write
 
 // readDatabyStream.on("data", (chunk) => {
@@ -51,7 +73,11 @@ readDatabyStream.pipe(writeStream);
 // http
 const server = http.createServer((req, res) => {
   if (req.url === "/") {
+    // emitter.emit("called", path.basename(__filename));
+    // emitter.emit("called", new Error("Something went wrong"));
+
     res.write("hello node.js Home api");
+
     res.end();
   } else if (req.url === "/about") {
     res.write("hello node.js about api");
