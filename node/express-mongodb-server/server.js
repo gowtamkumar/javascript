@@ -25,13 +25,19 @@ if (process.env.NODE_ENV !== "test") {
 app.use(cookieParser()); // cookie parser when we needed the cookies value then we simply get and set
 app.use(express.json()); // you ensure that your express application can handle json data sent in the request body automatically
 app.use(express.urlencoded({ extended: true })); // it parses incoming request with url-encoded payloads and is based on a body parser.
-app.use(cors()); // cros for different http method enable
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:5000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+); // cros for different http method enable
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-// logger assign 
+// logger assign
 app.use(logger);
 
 //main route
@@ -55,9 +61,9 @@ const server = app.listen(
   PORT,
   console.log(
     colors.magenta(
-      `Server running in ${process.env.NODE_ENV} Mode on Port ${PORT}`
-    )
-  )
+      `Server running in ${process.env.NODE_ENV} Mode on Port ${PORT}`,
+    ),
+  ),
 );
 
 //handle and unhandle promise rejections

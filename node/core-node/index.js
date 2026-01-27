@@ -13,8 +13,8 @@ emitter.on("called", (filename) => {
   console.log(`this is event emitter called from ${filename}`);
 });
 
-// const mypath = '/home/gowtam/Desktop/gowtam/Javascript/nodejs/index.js'
-// console.log("basename", path.parse(mypath) );
+const mypath = "/home/gowtam/Desktop/gowtam/Javascript/nodejs/index.js";
+console.log("basename", path.dirname(mypath));
 
 // console.log("os", os.cpus());
 
@@ -101,6 +101,10 @@ process.on("SIGTERM", () => {
 
 // console.log("readBuffer", readBuffer);
 // console.log("Buffer file", readBuffer.toString());
+setInterval(() => {
+  const mem = process.memoryUsage().rss / 1024 / 1024;
+  console.log("Memory Usage:", mem.toFixed(2), "MB");
+}, 1000);
 
 // http
 const server = http.createServer((req, res) => {
