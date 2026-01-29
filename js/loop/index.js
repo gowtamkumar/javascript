@@ -60,3 +60,35 @@ const arrnew = [1, 2, 3, 4, 5, 6];
 arrnew.forEach((value, idx, array) => {
   console.log("for each array", value, idx, array);
 });
+
+//## reduce
+let newArrayRed = [2, 3, 4, 54, 5, 10];
+
+const res = newArrayRed.reduce(
+  (acc, currentvalue, index, array) => {
+    console.log("acc", acc);
+    console.log("currentvalue", currentvalue);
+    console.log("index", index);
+    console.log("array", array);
+    return {
+      sum: acc?.sum + +currentvalue,
+      avg: (acc?.sum + +currentvalue) / array.length,
+    };
+  },
+  { sum: 0, avg: 0 },
+);
+
+// console.log("res", res);
+
+const fruits = ["apple", "banana", "apple", "orange", "banana", "apple"];
+
+const count = fruits.reduce((acc, fruit) => {
+  acc[fruit] = (acc[fruit] || 0) + 1;
+  return acc;
+}, {});
+
+const arr = [[1, 2], [5], [3, 4]];
+
+const newArr = arr.reduce((arr, cur) => arr.concat(cur), []);
+
+console.log("newArr", newArr);
