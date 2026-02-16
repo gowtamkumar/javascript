@@ -137,8 +137,7 @@ Create:
 Add this 👇
 
 ```yaml
-name: Test and Deploy (No Registry)
-
+name: Test and Deploy
 on:
   push:
     branches:
@@ -150,29 +149,46 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Step 1: Build in CI
-      - name: Build Docker image
-        run: docker build -t myapp:test .
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      # Step 2: Run tests
-      - name: Run tests
-        run: docker run --rm myapp:test npm test
-
-      # Step 3: Deploy only if tests passed
-      - name: Deploy to VPS
-        if: success()
+      - name: "DEPLOY: Push to VPS"
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /root/app
+            cd /root/products/inventory-management-system
+
+            # Authenticate Git with Token
+            git remote set-url origin https://${{ secrets.GHA_PAT }}@github.com/semicolonitofficial/inventory-management-system.git
+
             git pull origin main
-            docker compose build
-            docker compose up -d
+
+            echo "Starting deployment..."
+            docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
+
+            echo "Waiting for containers to stabilize (15s)..."
+            sleep 15
+
+            echo "Running health checks..."
+            # Check if all containers defined in compose are running
+            container_statuses=$(docker compose -f docker-compose.prod.yml ps --format "{{.Status}}")
+            echo "Current statuses:"
+            echo "$container_statuses"
+
+            if echo "$container_statuses" | grep -qv "Up"; then
+              echo "ERROR: One or more containers failed to start correctly!"
+              docker compose -f docker-compose.prod.yml ps
+              exit 1
+            fi
+
+            echo "Cleaning up old images..."
+            docker image prune -f
+            echo "Deployment successful!"
 ```
 
 # 🧠 What This Does
