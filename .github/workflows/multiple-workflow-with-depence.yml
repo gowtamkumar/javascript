@@ -1,16 +1,25 @@
 name: multipul job workflow
 
-on: 
+on:
   workflow_dispatch:
-  
+
+  # THIS ENV VARS ARE AVAILABLE TO ALL JOBS IN THIS WORKFLOW
+env:
+  NODE_ENV: production
+  APP_NAME: practice_app
+
 jobs:
   first-job-workflow:
     runs-on: ubuntu-latest
-
+    # here we can define env vars for this job only, these env vars are not available to other jobs in this workflow
+    env:
+      FIRST_JOB_ENV: this is first job env var
     steps:
       - name: first step
-        run: echo "this is multiple workflow"
-  
+        env:
+          FIRST_STEP_ENV: this is first step env var
+        run: echo ${FIRST_STEP_ENV}
+
   second-job-workflow:
     runs-on: ubuntu-latest
     needs: [first-job-workflow]
