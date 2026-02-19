@@ -1,4 +1,4 @@
-name: multipul job workflow
+name: multiple job workflow
 
 on:
   workflow_dispatch:
@@ -19,7 +19,7 @@ jobs:
       - name: first step
         env:
           FIRST_STEP_ENV: this is first step env var
-        if: ${{ env.FIRST_JOB_ENV == 'this is first job env var' }}
+        if: ${{ env.FIRST_JOB_ENV == 'this is first job env vars' }}
         run: echo "this testing for this if condition"
 
   second-job-workflow:
