@@ -1,5 +1,5 @@
 name: multiple job workflow
-
+run-name: multiple job workflow ${{ github.run_number }} - ${{ github.event_name }}
 on:
   workflow_dispatch:
 
@@ -12,6 +12,7 @@ jobs:
   first-job-workflow:
     name: first job workflow
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     # here we can define env vars for this job only, these env vars are not available to other jobs in this workflow
     env:
       FIRST_JOB_ENV: this is first job env var
