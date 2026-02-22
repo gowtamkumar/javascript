@@ -75,7 +75,7 @@ var subString = "hell";
 
 console.log(
   "mainString.includes(subString);",
-  mainString.indexOf(subString) !== -1
+  mainString.indexOf(subString) !== -1,
 );
 
 // regex
@@ -131,10 +131,10 @@ resetData(3, 4, 5, 67, 8, 1);
 var length = 9;
 function count() {
   console.log(arguments);
-  
+
   console.log("as", this.length);
 }
 
-const data  =  [count, 'A', 0]
+const data = [count, "A", 0];
 
 data[0]("hi");
