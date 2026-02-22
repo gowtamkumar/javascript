@@ -36,7 +36,7 @@ const result = new Cricketer(
   "Gowtam kumar",
   29,
   "Javascript Developer",
-  "bangladesh"
+  "bangladesh",
 );
 // console.log("🚀 ~ result:", result.play());
 
@@ -84,7 +84,7 @@ const newCricket = new NewCricketer(
   "Gowtam kumar",
   29,
   "Javascript Developr",
-  "Bangladesh"
+  "Bangladesh",
 );
 
 // console.log(newCricket.play());

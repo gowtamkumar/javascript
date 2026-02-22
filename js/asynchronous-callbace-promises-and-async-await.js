@@ -1,3 +1,7 @@
+// # what is Promise
+// A JavaScript Promise is an object representing the eventual result of an asynchronous operation. It serves as a placeholder for a value that is not yet available, allowing you to handle asynchronous code in a cleaner, more manageable way than traditional callbacks.
+// Promise States
+// Promises exist in one of three states: Pending (ongoing), Fulfilled (successful), or Rejected (failed). Once a promise is fulfilled or rejected, it is considered settled and immutable
 // callback,promises and async-await
 
 // 1.synchronous blocking behavior

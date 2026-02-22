@@ -1,5 +1,3 @@
-// learn with sumit
-
 // Primitive Values
 //  String
 //  Number
@@ -59,6 +57,6 @@ console.log(e);
 // note: primitive value kokhon mutate kora hoy na jodi o kori seat ignore kore
 // note: referance value nutation kora jai and assing o kora jai. function a jonno all time pass by referance for any data type
 
-const checkPrimitive = "2 + 2"
+const checkPrimitive = "2 + 2";
 
 console.log(eval(checkPrimitive));
