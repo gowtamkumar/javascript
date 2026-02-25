@@ -79,3 +79,15 @@ let h = true; // true is 1
 // let gk = 22;
 // let kg = --(gk++) // here 23 then -- meaning --(23) can not run increment and decrement
 // console.log(kg);
+
+// # Math
+console.log(Math.round(10.3));
+console.log(Math.ceil(10.3));
+console.log(Math.floor(22.6));
+console.log(Math.trunc(23.4));
+console.log(Math.pow(2, 5));
+console.log(Math.sqrt(69));
+console.log(Math.cbrt(27)); // here result 3 mean 3 x 3 x 3
+console.log(Math.abs(-33)); // this remove to nagative to positive convert
+console.log(Math.max(33, 44, 100));
+console.log(Math.trunc(Math.random() * 9000) + 1000); // opt number create
