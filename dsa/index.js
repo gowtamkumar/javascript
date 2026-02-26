@@ -91,3 +91,59 @@ console.log(Math.cbrt(27)); // here result 3 mean 3 x 3 x 3
 console.log(Math.abs(-33)); // this remove to nagative to positive convert
 console.log(Math.max(33, 44, 100));
 console.log(Math.trunc(Math.random() * 9000) + 1000); // opt number create
+
+// # condition statement
+let amount = 2909;
+
+if (amount >= 500) {
+  console.log("500 notes: " + Math.floor(amount / 500));
+  amount = amount % 500;
+}
+
+if (amount >= 200) {
+  console.log("200 notes: " + Math.floor(amount / 200));
+  amount = amount % 200;
+}
+if (amount >= 100) {
+  console.log("100 notes: " + Math.floor(amount / 100));
+  amount = amount % 100;
+}
+if (amount >= 50) {
+  console.log("50 notes: ", Math.floor(amount / 50));
+  amount = amount % 50;
+}
+
+if (amount >= 20) {
+  console.log("20 notes: ", Math.floor(amount / 20));
+  amount = amount % 20;
+}
+if (amount >= 10) {
+  console.log("10 notes: ", Math.floor(amount / 10));
+  amount = amount % 10;
+}
+
+if (amount >= 5) {
+  console.log("5 notes: ", Math.floor(amount / 5));
+  amount = amount % 5;
+}
+if (amount >= 2) {
+  console.log("2 notes: ", Math.floor(amount / 2));
+  amount = amount % 2;
+}
+
+console.log("1 notes", amount);
+
+let num = Number((0.1 + 0.2).toFixed(1));
+newday = "";
+
+switch (num) {
+  case 0.3:
+    newday = "Tuesday";
+    break;
+  case 3.5:
+    newday = "Friday";
+  default:
+    newday = "Invalid day";
+}
+
+console.log("newday", newday);
