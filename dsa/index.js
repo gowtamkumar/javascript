@@ -147,3 +147,18 @@ switch (num) {
 }
 
 console.log("newday", newday);
+
+// # loop
+// reverse loop
+// excuation step:
+// step 1: let i = 200
+// step 2: i > 100
+// step 3: {console.log(i)}
+// step:4  i--
+let ik = 200;
+for (; ik > 100; ik--) {
+  // 200 to 100
+  console.log(ik);
+}
+
+console.log("fail", ik);
