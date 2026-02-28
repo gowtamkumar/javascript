@@ -174,6 +174,9 @@ console.log("teting...", n);
 // # prime number exam: 1, self can be divide this is prime number
 
 function isPrimeNumber(n) {
+  if (n <= 1) return false;
+  if (n % 2 === 0) return false;
+  if (n == 2) return true;
   let isPrime = true;
   for (let i = 2; i < n; i++) {
     if (n % i === 0) {
@@ -184,4 +187,4 @@ function isPrimeNumber(n) {
   return isPrime;
 }
 
-console.log(isPrimeNumber(13));
+console.log(isPrimeNumber(10));
