@@ -162,3 +162,26 @@ for (; ik > 100; ik--) {
 }
 
 console.log("fail", ik);
+
+// # Factors of number
+let n = 12;
+for (let i = 1; i <= Math.floor(n / 2); i++) {
+  if (n % i === 0) {
+    console.log("teting...", i);
+  }
+}
+console.log("teting...", n);
+// # prime number exam: 1, self can be divide this is prime number
+
+function isPrimeNumber(n) {
+  let isPrime = true;
+  for (let i = 2; i < n; i++) {
+    if (n % i === 0) {
+      isPrime = false;
+      break;
+    }
+  }
+  return isPrime;
+}
+
+console.log(isPrimeNumber(13));
