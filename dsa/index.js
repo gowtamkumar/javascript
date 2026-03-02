@@ -214,14 +214,25 @@
 // }
 // console.log("sum", sum);
 // # reverse number
-let n = 123456789;
-rev = 0;
-while (n > 0) {
-  let rem = n % 10;
-  console.log("rem", rem);
-  rev = rev * 10 + rem;
-  console.log("rev", rev);
-  console.log("division", Math.floor(n / 10));
-  n = Math.floor(n / 10);
-}
-console.log("reverse", rev);
+// let n = 123456789;
+// rev = 0;
+// while (n > 0) {
+//   let rem = n % 10;
+//   console.log("rem", rem);
+//   rev = rev * 10 + rem;
+//   console.log("rev", rev);
+//   console.log("division", Math.floor(n / 10));
+//   n = Math.floor(n / 10);
+// }
+// console.log("reverse", rev);
+// # strong number
+// let n = 59;
+
+// while (n > 0) {
+//   let rem = n % 10;
+//   console.log(rem);
+
+//   console.log(Math.floor(n / 10));
+
+//   n = Math.floor(n / 10);
+// }
