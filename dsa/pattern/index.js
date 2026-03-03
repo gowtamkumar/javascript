@@ -1,0 +1,44 @@
+const prompt = require("prompt-sync")();
+let n = prompt("Enter a number");
+
+// for (let i = 1; i <= pro; i++) {
+//   for (let j = 1; j <= pro; j++) {
+//     process.stdout.write("*");
+//   }
+//   console.log();
+// }
+// ## right triangle pattern
+// for (let i = 1; i <= pro; i++) {
+//   for (let j = 1; j <= i * 2 - 1; j++) {
+//     process.stdout.write("*");
+//   }
+//   console.log();
+// }
+
+// for (let i = 1; i <= n; i++) {
+//   for (let j = 1; j <= i; j++) {
+//     process.stdout.write("*");
+//   }
+//   console.log();
+// }
+
+// ## inverted right angle triangle
+// for (let i = 1; i <= n; i++) {
+//   for (let j = n; j >= i; j--) {
+//     process.stdout.write("*");
+//   }
+//   console.log();
+// }
+
+// ## mirror right angle traningle
+
+for (let i = 1; i <= n; i++) {
+  for (let s = 1; s <= n - i; s++) {
+    process.stdout.write(" ");
+  }
+
+  for (let j = 1; j <= i; j++) {
+    process.stdout.write("*");
+  }
+  console.log("");
+}
