@@ -32,15 +32,28 @@ let n = prompt("Enter a number");
 
 // ## mirror right angle traningle
 
+// for (let i = 1; i <= n; i++) {
+//   console.log(n - i);
+
+//   for (let s = 1; s <= n - i; s++) {
+//     process.stdout.write(" ");
+//   }
+
+//   for (let j = 1; j <= i; j++) {
+//     process.stdout.write("*");
+//   }
+//   console.log("");
+// }
+
+// # home work full traningle
+
 for (let i = 1; i <= n; i++) {
   for (let s = 1; s <= n - i; s++) {
     process.stdout.write(" ");
   }
 
-  for (let j = 1; j <= i; j++) {
+  for (let j = 1; j <= 2 * i - 1; j++) {
     process.stdout.write("*");
   }
   console.log("");
 }
-
-// # home work traningle
