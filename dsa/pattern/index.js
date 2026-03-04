@@ -60,13 +60,23 @@ let n = Number(prompt("Enter a number"));
 
 // # x pattern
 
+// for (let i = 1; i <= n; i++) {
+//   for (let j = 1; j <= n; j++) {
+//     if (i == j || i + j == n + 1) {
+//       process.stdout.write("* ");
+//     } else {
+//       process.stdout.write("  "); // TWO spaces
+//     }
+//   }
+//   console.log();
+// }
+
+// # v pattern
 for (let i = 1; i <= n; i++) {
-  for (let j = 1; j <= n; j++) {
-    if (i == j || i + j == n + 1) {
+  for (let j = 1; j <= 2 * n - 1; j++) {
+    if (i == j || i + j == 2 * n) {
       process.stdout.write("* ");
-    } else {
-      process.stdout.write("  "); // TWO spaces
-    }
+    } else process.stdout.write("  ");
   }
   console.log();
 }
