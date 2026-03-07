@@ -15,19 +15,21 @@
 // }
 
 // console.log("newArry", newArry);
-let arr = [1, 2, 3, 4, 5, 6, 7];
+// let arr = [1, 2, 3, 4, 5, 6, 7];
 
-let first = 0;
-let last = arr.length - 1;
+// let first = 0;
+// let last = arr.length - 1;
 
-while (first < last) {
-  let temp = arr[first];
+// while (first < last) {
+//   let temp = arr[first];
 
-  arr[first] = arr[last];
-  arr[last] = temp;
+//   arr[first] = arr[last];
+//   arr[last] = temp;
 
-  first++;
-  last--;
-}
+//   first++;
+//   last--;
+// }
 
-console.log(arr);
+// console.log(arr);
+
+// # advance array
