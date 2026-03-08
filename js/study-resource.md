@@ -48,3 +48,7 @@ interview resource: https://zonayed.me/	 -->
 ## session
 
 ## XSS,CSRF,Client-Side Tampering,Persistence/Expiration Issues
+
+## crypto,
+
+## jwt,hashing,encoding,encryption,decoded
