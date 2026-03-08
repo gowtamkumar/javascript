@@ -52,7 +52,7 @@
 // console.log("arr", arr);
 
 let arr = [1, 2, 3, 4, 5, 6]; // result k step left
-let k = 2;
+let k = 2 % arr.length;
 for (let j = 0; j < k; j++) {
   let copy = arr[0];
   for (let i = 0; i < arr.length - 1; i++) {
