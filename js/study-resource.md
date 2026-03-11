@@ -10,6 +10,8 @@
 
 ## callback,higher order fun, pure function, closer in js
 
+ <!-- ans: A closure means a function remembers variables from its outer scope -->
+
 ## JavaScript Pass by Value vs Pass by Reference in js
 
 ## object freeze, seal js
