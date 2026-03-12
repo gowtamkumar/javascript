@@ -51,14 +51,81 @@
 // arr[0] = copy;
 // console.log("arr", arr);
 
-let arr = [1, 2, 3, 4, 5, 6]; // result k step left
-let k = 2 % arr.length;
-for (let j = 0; j < k; j++) {
-  let copy = arr[0];
-  for (let i = 0; i < arr.length - 1; i++) {
-    arr[i] = arr[i + 1];
+// let arr = [1, 2, 3, 4, 5, 6]; // result k step left
+// let k = 2 % arr.length;
+// for (let j = 0; j < k; j++) {
+//   let copy = arr[0];
+//   for (let i = 0; i < arr.length - 1; i++) {
+//     arr[i] = arr[i + 1];
+//   }
+//   arr[arr.length - 1] = copy;
+// }
+
+// console.log("arr", arr);
+
+// marge sort
+// let arr1 = [2, 5, 6];
+// let arr2 = [1, 3, 4, 9];
+
+// let marge = [];
+// let i = 0,
+//   j = 0,
+//   k = 0;
+
+// while (i < arr1.length && j < arr2.length) {
+//   if (arr1[i] < arr2[j]) {
+//     marge[k] = arr1[i];
+//     k++;
+//     i++;
+//   } else {
+//     marge[k] = arr2[j];
+//     k++;
+//     j++;
+//   }
+// }
+
+// while (i < arr1.length) {
+//   marge[k] = arr1[i];
+//   k++;
+//   i++;
+// }
+
+// while (j < arr2.length) {
+//   marge[k] = arr2[j];
+//   k++;
+//   j++;
+// }
+
+// console.log("marge", marge);
+
+let arr1 = [2, 5, 5, 7, 8, 1, 100, 0];
+// let dublicate = [];
+// let k = 0,
+//   i = 0;
+
+// while (i < arr1.length) {
+//   if (!dublicate.includes(arr1[i])) {
+//     dublicate[k] = arr1[i];
+//     k++;
+//   }
+//   i++;
+// }
+
+// console.log("dublicate", dublicate);
+
+// # min value and max
+
+let min = arr1[0];
+let max = arr1[0];
+for (let i = 0; i < arr1.length; i++) {
+  if (min > arr1[i]) {
+    // min
+    min = arr1[i];
   }
-  arr[arr.length - 1] = copy;
+  if (min < arr1[i]) {
+    max = arr1[i];
+  }
 }
 
-console.log("arr", arr);
+console.log("min", min);
+console.log("max", max);
