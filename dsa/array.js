@@ -129,29 +129,29 @@
 
 // console.log("min", min);
 // console.log("max", max);
+// # sort
+// let arry = [1, 2, 0, 1, 0, 1, 2, 0, 0, 2];
 
-let arry = [1, 2, 0, 1, 0, 1, 2, 0, 0, 2];
+// let i = 0;
+// let j = 0;
+// let k = arry.length - 1;
+// let temp;
 
-let i = 0;
-let j = 0;
-let k = arry.length - 1;
-let temp;
+// while (i <= k) {
+//   if (arry[i] === 0) {
+//     temp = arry[i];
+//     arry[i] = arry[j];
+//     arry[j] = temp;
+//     i++;
+//     j++;
+//   } else if (arry[i] === 2) {
+//     temp = arry[i];
+//     arry[i] = arry[k];
+//     arry[k] = temp;
+//     k--;
+//   } else {
+//     i++;
+//   }
+// }
 
-while (i <= k) {
-  if (arry[i] === 0) {
-    temp = arry[i];
-    arry[i] = arry[j];
-    arry[j] = temp;
-    i++;
-    j++;
-  } else if (arry[i] === 2) {
-    temp = arry[i];
-    arry[i] = arry[k];
-    arry[k] = temp;
-    k--;
-  } else {
-    i++;
-  }
-}
-
-console.log("arry", arry);
+// console.log("arry", arry);
