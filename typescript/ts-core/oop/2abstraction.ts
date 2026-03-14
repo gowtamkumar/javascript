@@ -8,10 +8,10 @@ abstract class Charater {
     this.firstName = firstName;
     this.lastName = lastName;
   }
-  // abstract getStrict(): number;
-  fullName(): string {
-    return `${this.firstName} + ${this.lastName}`;
-  }
+  abstract getStrict(): number; // abstract methods.
+  // fullName(): string {
+  //   return `${this.firstName} + ${this.lastName}`;
+  // }
 }
 
 // const result2 = new Charater("Gowtam", "kumar"); you can not use abstract method
@@ -24,11 +24,11 @@ class FullTimeEmployee extends Charater {
   ) {
     super(firstName, lastName);
   }
-  getStipend(): number {
+  getStrict(): number {
     return this.stipend;
   }
 }
 
 const result = new FullTimeEmployee("Gowtam", "kumar", 50); // you can use this method Charater class
 
-console.log(result.fullName());
+console.log(result);

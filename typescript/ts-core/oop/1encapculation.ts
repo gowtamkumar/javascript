@@ -24,7 +24,7 @@ console.log(resultEncap);
 // secend example
 
 class BankAccount {
-  private balance: number;
+  public balance: number;
   constructor(initBalance: number) {
     this.balance = initBalance;
   }
@@ -47,4 +47,4 @@ balanceRes.deposit(3000);
 
 console.log("newDeposit", balanceRes.getBlance()); // we cna acess but
 
-// console.log(balanceRes.balance); but this can not access
+console.log(balanceRes.balance); //but this can not access
