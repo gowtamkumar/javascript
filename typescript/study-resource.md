@@ -4,4 +4,4 @@
 
 # class,defination,plan,high level thinking,pattern,blue print
 
-## oop(class,encapsulation, abstract), method overloading
+## oop(class,encapsulation, abstract), method overloading, delegation, composition
