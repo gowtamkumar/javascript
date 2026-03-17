@@ -49,3 +49,9 @@ bigserial
     SELECT * FROM products
 
 # unique b-tree index
+
+## trim,ltrim,rtrim,substring,concat,||,replace,left,right,
+
+## relation,join,normaliztion(1NF,2NF,3NF), composeit key
+
+## how to write in sql composit key
