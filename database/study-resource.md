@@ -55,3 +55,5 @@ bigserial
 ## relation,join,normaliztion(1NF,2NF,3NF), composeit key
 
 ## how to write in sql composit key
+
+## dependency in table
