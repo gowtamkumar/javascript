@@ -2,6 +2,8 @@
 
 # https://www.geeksforgeeks.org/sql/sql-ddl-dql-dml-dcl-tcl-commands/
 
+## https://www.geeksforgeeks.org/postgresql/postgresql-data-types/
+
 ## query type:
 
 # 1. DDL(Data Definition Language)
