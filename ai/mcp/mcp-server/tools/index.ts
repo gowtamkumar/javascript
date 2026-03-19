@@ -1,1 +1,0 @@
-// Register weather tools
