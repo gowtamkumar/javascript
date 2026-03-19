@@ -1,0 +1,1 @@
+run commond: node ./build/index.js
