@@ -59,3 +59,7 @@ bigserial
 ## how to write in sql composit key
 
 ## dependency in table
+
+## ERD
+
+# database first approach
