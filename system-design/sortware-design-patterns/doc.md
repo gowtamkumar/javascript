@@ -18,3 +18,14 @@ https://www.geeksforgeeks.org/
 ## Repository Pattern
 
 ## Decorator Pattern
+
+## Generics
+
+https://youtu.be/bnTAOB3P6nM?si=hQjDhafVf8TVVGvU
+https://youtu.be/FcOa2G9kJPE?si=5H08DqP_eRUREDnX
+https://youtu.be/dLPgQRbVquo?si=ewlbICT_WqLRQ4d1
+
+## Decorators Docs
+
+https://refactoring.guru/design-patterns/decorator
+https://www.typescriptlang.org/docs/handbook/decorators.html
