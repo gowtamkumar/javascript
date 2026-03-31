@@ -59,3 +59,10 @@ bigserial
 ## dependency in table
 
 ## ERD Basics
+
+# pagination
+
+    #offset pabe pagination.
+    offset,offset base problem,
+    # curser base pagination
+
