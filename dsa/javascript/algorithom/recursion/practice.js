@@ -22,11 +22,49 @@
 // }
 // console.log(factorial(5));
 // reverse string
-function reverseString(value) {
-  if (value == "") {
-    return "";
-  }
-  return reverseString(value.slice(1)) + value[0];
-}
+// function reverseString(value) {
+//   if (value == "") {
+//     return "";
+//   }
+//   return reverseString(value.slice(1)) + value[0];
+// }
 
-console.log(reverseString("Hello"));
+// console.log(reverseString("Hello"));
+
+const fileSystem = {
+  name: "root",
+  files: ["file1"],
+  folders: [
+    {
+      name: "folderA",
+      files: ["file2"],
+      folders: [
+        {
+          name: "folderB",
+          files: ["file3"],
+          folders: [],
+        },
+      ],
+    },
+    {
+      name: "folderB",
+      files: ["fileb"],
+      folders: [
+        {
+          name: "folderC",
+          files: ["file4"],
+          folders: [],
+        },
+      ],
+    },
+  ],
+};
+
+function getAllFile(folders) {
+  let result = [...folders.files];
+  for (let subFloder of folders.folders) {
+    result = result.concat(getAllFile(subFloder));
+  }
+  return result;
+}
+console.log(getAllFile(fileSystem));
