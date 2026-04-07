@@ -66,3 +66,4 @@ bigserial
     offset,offset base problem,
     # curser base pagination
 
+## connection pool most important
