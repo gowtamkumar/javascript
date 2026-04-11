@@ -67,3 +67,9 @@ bigserial
     # curser base pagination
 
 ## connection pool most important
+
+# ACID
+
+# N+1 Problem
+
+# What is Indexing strategy?
