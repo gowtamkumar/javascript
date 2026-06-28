@@ -236,3 +236,8 @@
 
 //   n = Math.floor(n / 10);
 // }
+
+const arr = [1, 3, 5, 3];
+
+arr.splice(1, 1, 44);
+console.log(arr);
