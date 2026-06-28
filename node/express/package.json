@@ -11,6 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.52",
+    "ai": "^6.0.159",
     "cors": "^2.8.6",
     "events": "^3.3.0",
     "express": "^5.2.1",
