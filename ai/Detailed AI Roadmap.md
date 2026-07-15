@@ -3,16 +3,6 @@ You do **not** need to become a PhD mathematician first. The fastest path today 
 
 > **AI Application Engineer → AI Agent Engineer → AI Systems Architect**
 
-Since you already work on large ERP/NDIS systems, you should focus on **production AI systems**, not only theory.
-
----
-
-# Best Roadmap for You (2026)
-
-## Stage 1 — Strong AI Foundation (2–4 weeks)
-
-Learn the core concepts enough to understand what models are doing.
-
 ### Learn These Topics
 
 - What is AI / ML / LLM
@@ -401,7 +391,6 @@ Most AI beginners do NOT understand these.
 
 If you combine your ERP architecture skill with AI systems, you can build very high-value enterprise products.
 
-
 YOUR BEST LEARNING ORDER
 Month 1
 Learn
@@ -457,13 +446,10 @@ Final Understanding
 Your future ERP architecture will become:
 
 ERP System
-   +
-AI Copilot
-   +
-RAG Knowledge Layer
-   +
-Agent System
-   +
-Workflow Automation
+
+- AI Copilot
+- RAG Knowledge Layer
+- Agent System
+- Workflow Automation
 
 This is modern enterprise AI SaaS architecture in 2026.
