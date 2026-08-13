@@ -14,7 +14,6 @@
 
 - ✅ Functional Requirements
 - ✅ Non-Functional Requirements
-
   - Availability
   - Latency
   - Scalability
@@ -22,13 +21,11 @@
   - Security
 
 - ✅ Scale Estimation
-
   - DAU / MAU
   - QPS (Request per second)
   - Data growth estimation
 
 - ✅ Constraints Analysis
-
   - Cost limits
   - Development time
   - Team size
@@ -173,7 +170,6 @@
 - Kubernetes
 - CI/CD pipelines
 - AWS services:
-
   - S3
   - EC2
   - RDS
@@ -279,3 +275,30 @@ Since আপনি JavaScript + NestJS + Next.js নিয়ে কাজ কর�
 2️⃣ PDF full notes
 3️⃣ Interview mock practice
 4️⃣ All in one full course
+
+1. how to work server?
+2. linux filesystem,process,tread,concurency,
+3. tread kivabe lock kore fale?
+4. how to manage memory in overhating?
+5. how to increage server capacity?
+6. how to manage docker/container?
+7. how to mange inner container resource?
+8. how to install resource inner container install, update,patch?
+9. how to understand inner container vernaablity,sequrity, how to solve this issue?
+10. server resource high hole kivabe alert system korbo?
+
+11. network, http,https,protocal,port,ssh,ip4,ip6,tcp/ip,udp,stream,actp status,cors,auth,contenct type, header,dns,proxy,forad proxy,reversce proxy,firlwale,caching,websocket,cdn,two way comunication, public network,private network
+
+12. database,sql,nosql, konta konsomoy use kora hoy? graph database vector db, kon kon somy use korte hoy? normalise, denormalise,query optimize, split read/write oparation db, connection pool, partication,
+    rebalance, cross query,backup, recovery,consistency, avalilability, how to handle data warehouse, data lake, indexing, data scturcture, perfermance, monitoring,
+
+13. cashing, inmomory cache, mine cache, browsewr cache,clinent-side case, application cashe, database cache, cache invalide, eviction,normal hasing, name hasing
+
+14. load balancing, leyer 4,messge quee,
+
+15. big datastorage, aws,google cloud,recover,video files,
+16. system architure
+
+17. security, how to set firewale,vernaable attarck, cross site attack,
+
+18. monitoring and opjervation,analysis
