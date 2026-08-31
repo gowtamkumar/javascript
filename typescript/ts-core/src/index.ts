@@ -1,3 +1,4 @@
+// import * from 'promise.ts'
 // const user = { name: "Boss", age: 25};
 
 // for (const key in user) {
