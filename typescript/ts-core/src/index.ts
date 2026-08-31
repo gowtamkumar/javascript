@@ -1,5 +1,4 @@
-// import * from 'promise.ts'
-// const user = { name: "Boss", age: 25};
+import "./promise";
 
 // for (const key in user) {
 //   console.log(key, user[key as keyof typeof user]);
@@ -167,23 +166,23 @@
 
 // const resPayment = new PaypalPayment();
 
-abstract class Payment {
-  abstract pay(amount: number): void;
-}
+// abstract class Payment {
+//   abstract pay(amount: number): void;
+// }
 
-class PaypalPayment extends Payment {
-  pay(amount: number): void {
-    console.log(`Paid ${amount} using PayPal`);
-  }
-}
+// class PaypalPayment extends Payment {
+//   pay(amount: number): void {
+//     console.log(`Paid ${amount} using PayPal`);
+//   }
+// }
 
-class CashPayment extends Payment {
-  pay(amount: number): void {
-    console.log(`Paid ${amount} using Cash`);
-  }
-}
-const payment = new PaypalPayment();
-payment.pay(100);
+// class CashPayment extends Payment {
+//   pay(amount: number): void {
+//     console.log(`Paid ${amount} using Cash`);
+//   }
+// }
+// const payment = new PaypalPayment();
+// payment.pay(100);
 
-const payCash = new CashPayment();
-payCash.pay(2000);
+// const payCash = new CashPayment();
+// payCash.pay(2000);

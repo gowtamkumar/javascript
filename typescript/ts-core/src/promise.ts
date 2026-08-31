@@ -10,7 +10,7 @@ const fetchUser = (): Promise<string> => {
       if (isSuccess) {
         resolve("This is Resolve");
       } else {
-        reject("This promise is reject");
+        reject(new Error("This promise is reject"));
       }
     }, 1000);
   });
@@ -27,7 +27,7 @@ fetchUser()
     console.log("process fulled");
   });
 
-async function handleApiCall() {
+export async function handleApiCall() {
   try {
     const data = await fetchUser();
     console.log(data);
@@ -39,3 +39,5 @@ async function handleApiCall() {
     }
   }
 }
+
+handleApiCall();
