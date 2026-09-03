@@ -3,6 +3,9 @@ const player = {
   age: 29,
   country: "Bangadesh",
 };
+
+console.log("check pro", Object.getPrototypeOf(player) === Object.prototype); // result {} blank becouse prototype by doing,
+
 // console.log("🚀 ~ player:", player);
 const createObject = Object.create(player);
 // console.log("🚀 ~ createObject:", createObject); // result {} blank becouse prototype by doing,
