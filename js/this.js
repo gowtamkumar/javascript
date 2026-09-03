@@ -8,3 +8,19 @@
 // | Object method                  | সাধারণত ভালো           | `this` দরকার হলে নয় |
 // | Callback                       | ব্যবহার করা যায়        | অনেক সময় convenient |
 // | Constructor হিসেবে `new`       | ✅                      | ❌                   |
+
+const user = {
+  name: "Gowtam",
+
+  greet() {
+    console.log("Outer this:", this.name);
+
+    const inner = () => {
+      console.log("Inner this:", this.name);
+    };
+
+    inner();
+  },
+};
+
+user.greet();
