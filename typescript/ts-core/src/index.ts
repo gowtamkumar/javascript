@@ -1,4 +1,5 @@
-import "./promise";
+import "./generic-fun";
+// import "./promise";
 
 // for (const key in user) {
 //   console.log(key, user[key as keyof typeof user]);
