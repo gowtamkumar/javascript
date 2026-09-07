@@ -1,4 +1,4 @@
-import "./generic-fun";
+import "./generics";
 // import "./promise";
 
 // for (const key in user) {
