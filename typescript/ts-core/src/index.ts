@@ -1,5 +1,6 @@
 import "./generics";
 // import "./promise";
+import "./type-guard";
 
 // for (const key in user) {
 //   console.log(key, user[key as keyof typeof user]);
