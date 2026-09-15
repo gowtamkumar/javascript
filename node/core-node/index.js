@@ -146,6 +146,15 @@ const { pipeline } = require("node:stream/promises");
 // const decodedStr = Buffer.from(base64Str, "base64").toString("utf-8");
 // console.log("Decoded string:", decodedStr); // Output: "Node.js"
 
+// process
+const useMemory = process.memoryUsage();
+console.log({
+  rss: `${(useMemory.rss / 1024 / 1024).toFixed()} MB`,
+  totalHeap: `${(useMemory.heapTotal / 1024 / 1024).toFixed()} MB`,
+  heapUsed: `${(useMemory.heapUsed / 1024 / 1024).toFixed()} MB`,
+  external: `${(useMemory.external / 1024 / 1024).toFixed(2)} MB`,
+});
+
 // http
 const server = http.createServer((req, res) => {
   if (req.url === "/") {
