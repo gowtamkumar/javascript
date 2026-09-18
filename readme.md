@@ -198,6 +198,11 @@ Sequence:
 ```text
 1. Schema Design
 2. Normalization
+        1. 1NF
+        2. 2NF
+        3. 3NF
+        4. BCNF
+        5. 4NF
 3. Relationships
 4. Indexes
 5. Composite Index

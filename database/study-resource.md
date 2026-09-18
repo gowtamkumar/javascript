@@ -73,3 +73,5 @@ bigserial
 # N+1 Problem
 
 # What is Indexing strategy?
+
+# normalization
