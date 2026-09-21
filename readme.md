@@ -203,6 +203,7 @@ Sequence:
         3. 3NF
         4. BCNF
         5. 4NF
+        6. 5NF
 3. Relationships
 4. Indexes
 5. Composite Index
