@@ -1,0 +1,31 @@
+{
+  "name": "phase-03-embeddings-vector-db",
+  "version": "1.0.0",
+  "description": "Mastering Embeddings, Vector Search, and PostgreSQL pgvector for JavaScript Developers",
+  "type": "module",
+  "main": "01-cosine-similarity-math.js",
+  "scripts": {
+    "start:math": "node 01-cosine-similarity-math.js",
+    "start:embed": "node 02-generate-embeddings.js",
+    "start:memory-search": "node 03-in-memory-vector-store.js",
+    "start:pgvector": "node 05-pgvector-node.js"
+  },
+  "keywords": [
+    "embeddings",
+    "vector-search",
+    "pgvector",
+    "postgres",
+    "cosine-similarity",
+    "gemini-embedding",
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Gowtam Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "dotenv": "^16.4.7",
+    "pg": "^8.13.3",
+    "pgvector": "^0.2.0"
+  }
+}

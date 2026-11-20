@@ -1,0 +1,30 @@
+{
+  "name": "phase-02-official-sdks",
+  "version": "1.0.0",
+  "description": "Hands-on implementation of Official AI SDKs (Google Gemini & OpenAI) in Node.js",
+  "type": "module",
+  "main": "01-text-generation.js",
+  "scripts": {
+    "start:text": "node 01-text-generation.js",
+    "start:stream": "node 02-streaming.js",
+    "start:chat": "node 03-chat-session.js",
+    "start:json": "node 04-structured-output.js",
+    "start:multimodal": "node 05-multimodal-demo.js"
+  },
+  "keywords": [
+    "generative-ai",
+    "gemini-sdk",
+    "openai-sdk",
+    "streaming",
+    "multimodal",
+    "structured-json",
+    "nodejs"
+  ],
+  "author": "Gowtam Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "dotenv": "^16.4.7",
+    "openai": "^4.86.1"
+  }
+}

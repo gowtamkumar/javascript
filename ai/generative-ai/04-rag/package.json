@@ -1,0 +1,31 @@
+{
+  "name": "phase-04-rag-langchain",
+  "version": "1.0.0",
+  "description": "Mastering RAG (Retrieval-Augmented Generation) & LangChain.js for JavaScript Developers",
+  "type": "module",
+  "main": "01-vanilla-rag.js",
+  "scripts": {
+    "start:vanilla-rag": "node 01-vanilla-rag.js",
+    "start:langchain-rag": "node 02-langchain-rag.js",
+    "start:conversational-rag": "node 03-conversational-rag.js"
+  },
+  "keywords": [
+    "rag",
+    "retrieval-augmented-generation",
+    "langchain",
+    "langchainjs",
+    "lcel",
+    "vector-search",
+    "pgvector",
+    "nodejs"
+  ],
+  "author": "Gowtam Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "@langchain/core": "^0.3.40",
+    "@langchain/google-genai": "^0.1.10",
+    "dotenv": "^16.4.7",
+    "langchain": "^0.3.19"
+  }
+}

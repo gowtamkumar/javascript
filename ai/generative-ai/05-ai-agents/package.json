@@ -1,0 +1,28 @@
+{
+  "name": "phase-05-ai-agents-security",
+  "version": "1.0.0",
+  "description": "Mastering Function Calling, Autonomous AI Agents (ReAct), and AI Security in JavaScript & Node.js",
+  "type": "module",
+  "main": "01-function-calling.js",
+  "scripts": {
+    "start:tools": "node 01-function-calling.js",
+    "start:agent": "node 02-react-agent.js",
+    "start:security": "node 03-ai-security-guardrails.js"
+  },
+  "keywords": [
+    "ai-agents",
+    "function-calling",
+    "tool-calling",
+    "react-agent",
+    "ai-security",
+    "prompt-injection",
+    "guardrails",
+    "nodejs"
+  ],
+  "author": "Gowtam Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "dotenv": "^16.4.7"
+  }
+}
